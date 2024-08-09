@@ -23,14 +23,17 @@ def login():
     contra=request.form['contra']
     
     cursor=mysql.connection.cursor()
-    cursor.execute('SELECT contrasena FROM medicos WHERE rfc = %s;', (rfc,))
+    cursor.execute('SELECT contrasena, rol FROM medicos WHERE rfc = %s;', (rfc,))
     usuario = cursor.fetchone()
     
     if usuario:
         hashed_contra = usuario[0].encode('utf-8')
         
         if bcrypt.checkpw(contra.encode('utf-8'), hashed_contra):
-            return redirect(url_for('mostrar_dashboard'))
+            if usuario[1]=='Administrador':
+                return redirect(url_for('mostrar_dash_admins')) #Si el medico tiene rol de admin se va a una pagina para admins
+            else:
+                return redirect(url_for('mostrar_dashboard')) #y si no pus a la normal
         else:
             flash('Contraseña incorrecta')
             return redirect(url_for('Index'))
@@ -70,6 +73,10 @@ def registrar():
 @app.route('/mostrar_dashboard')
 def mostrar_dashboard():
     return render_template('dashboard.html')
+
+@app.route('/mostrar_dash_admins')
+def mostrar_dash_admins():
+    return render_template('dash_admins.html')
 
 if __name__=='__main__':#es necesario hacer que main tenga dos guiones bajos
     app.run(port=3000, debug=True)
