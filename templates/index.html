@@ -6,6 +6,13 @@
     <title>Login</title>
 </head>
 <body>
+    {%with mensajes=get_flashed_messages() %}
+    {%if mensajes%}
+        {%for msj in mensajes%}
+            <h1>{{ msj }}</h1>
+        {%endfor %}
+    {%endif %}
+    {%endwith%}
     <h1>Inicio de sesión</h1>
 
     <div>

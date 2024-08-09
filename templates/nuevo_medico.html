@@ -6,28 +6,42 @@
     <title>Registro de médicos</title>
 </head>
 <body>
+
+    {%with mensajes=get_flashed_messages() %}
+    {%if mensajes%}
+        {%for msj in mensajes%}
+            <h1>{{ msj }}</h1>
+        {%endfor %}
+    {%endif %}
+    {%endwith%}
+
     <h1>Registrar a un médico</h1>
 
     <div>
-        <form action="/registro" method="POST">
+        <form action="/registrar" method="POST">
             <label for="nombre_med">Nombre</label>
-            <input type="text" name="nombre_med">
+            <input type="text" name="nombre_med"><br>
             <label for="ap_p">Apellido paterno</label>
-            <input type="text" name="ap_p">
+            <input type="text" name="ap_p"><br>
             <label for="ap_m">Apellido materno</label>
-            <input type="text" name="ap_m">
+            <input type="text" name="ap_m"><br>
             <label for="rfc">RFC</label>
-            <input type="text" name="rfc">
+            <input type="text" name="rfc"><br>
             <label for="tel">Teléfono</label>
-            <input type="text" name="tel">
+            <input type="text" name="tel"><br>
             <label for="correo">Correo</label>
-            <input type="text" name="correo">
+            <input type="text" name="correo"><br>
             <label for="cedula">Cédula</label>
-            <input type="cedula" name="cedula">
+            <input type="cedula" name="cedula"><br>
             <label for="rol">Rol</label>
-            <input type="text" name="rol">
+            <select name="rol">
+                <option value="Medico" selected>Médico</option>
+                <option value="Administrador">Administrador</option>
+            </select><br>
             <label for="contra">Contraseña</label>
-            <input type="password" name="contra">
+            <input type="password" name="contra"><br>
+            <label for="confirmar">Confirma tu contraseña</label>
+            <input type="password" name="confirmar"><br>
             <button type="submit">Registrar</button>
             <button><a href="{{ url_for('Index') }}">Regresar al inicio</a></button>
         </form>
