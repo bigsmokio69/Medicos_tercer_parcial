@@ -3,9 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Registro de médicos</title>
 </head>
 <body>
     <h1>Registrar a un médico</h1>
+
+    <div>
+        <form action="/registro" method="POST">
+            <label for="nombre_med">Nombre</label>
+            <input type="text" name="nombre_med">
+            <label for="ap_p">Apellido paterno</label>
+            <input type="text" name="ap_p">
+            <label for="ap_m">Apellido materno</label>
+            <input type="text" name="ap_m">
+            <label for="rfc">RFC</label>
+            <input type="text" name="rfc">
+            <label for="tel">Teléfono</label>
+            <input type="text" name="tel">
+            <label for="correo">Correo</label>
+            <input type="text" name="correo">
+            <label for="cedula">Cédula</label>
+            <input type="cedula" name="cedula">
+            <label for="rol">Rol</label>
+            <input type="text" name="rol">
+            <label for="contra">Contraseña</label>
+            <input type="password" name="contra">
+            <button type="submit">Registrar</button>
+            <button><a href="{{ url_for('Index') }}">Regresar al inicio</a></button>
+        </form>
+    </div>
 </body>
 </html>
