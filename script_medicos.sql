@@ -1,4 +1,4 @@
-use medicos;
+use db_medicos;
 CREATE TABLE Pacientes (
     id_paciente INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
