@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Inicio de sesión</h1>
+
+    <div>
+        <form action="/login" method="POST">
+            <label for="rfc">Ingrese su RFC</label>
+            <input type="text" name="rfc">
+            <label for="contra">Ingrese su contraseña</label>
+            <input type="text" name="contra">
+            <button type="submit">Ingresar</button>
+        </form>
+    </div>
+
+    <div>
+        <button><a href="{{ url_for('Registro') }}">Registrar uno nuevo</a></button>
+    </div>
+</body>
+</html>
