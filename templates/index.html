@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="inicio_medico.css">
 </head>
 <body>
     {%with mensajes=get_flashed_messages() %}
@@ -13,18 +14,20 @@
         {%endfor %}
     {%endif %}
     {%endwith%}
-    <h1>Inicio de sesión</h1>
 
-    <div>
+    <div class="login-container">
+        <h1>Inicio de sesión</h1>
+        <p>Sitio administrador</p>
         <form action="/login" method="POST">
-            <label for="rfc">Ingrese su RFC</label>
-            <input type="text" name="rfc">
-            <label for="contra">Ingrese su contraseña</label>
-            <input type="password" name="contra">
-            <button type="submit">Ingresar</button>
+            <input type="text" placeholder="RFC" required>
+            <input type="password" placeholder="Contraseña" required>
+            <button type="submit">Iniciar</button>
         </form>
+        <a href="#">¿Eres paciente?</a>
+
+        <button class="register-button" href="{{ url_for('mostrar_registro') }}">Registrar nuevo médico</button>
     </div>
 
-    <div>
+    
 </body>
 </html>
