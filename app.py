@@ -80,7 +80,49 @@ def mostrar_dash_admins():
 
 @app.route('/mostrar_adm_meds')
 def mostrar_adm_meds():
-    return render_template('adm_medicos.html')
+    cursor=mysql.connection.cursor()
+    cursor.execute('SELECT * FROM Medicos')
+    consulta=cursor.fetchall()
+    return render_template('adm_medicos.html', datos=consulta)
+
+@app.route('/borrarMed', methods=['POST'])
+def borrarMed():
+    if request.method=='POST':
+        datos=request.get_json()
+        print(datos)
+        id=datos.get('ID_borrar')
+        #Enviar a db
+        cursor=mysql.connection.cursor()
+        cursor.execute('DELETE FROM Medicos WHERE id_medico=%s', ([id]))
+        mysql.connection.commit()
+    return redirect(url_for('mostrar_adm_meds'))
+
+@app.route('/ver_edit_medico/<id>')
+def ver_edit_medico(id):
+    cur=mysql.connection.cursor()
+    cur.execute('SELECT * FROM Medicos WHERE id_medico=%s', [id])
+    consulta=cur.fetchone()
+    return render_template('edit_medico.html', med=consulta)
+
+@app.route('/edit_medico/<id>', methods=['POST'])
+def edit_medico(id):
+    if request.method=='POST':
+        nombre=request.form['nombre_med']
+        ap=request.form['ap_p']
+        am=request.form['ap_m']
+        rfc=request.form['rfc']
+        tel=request.form['tel']
+        correo=request.form['correo']
+        cedula=request.form['cedula']
+        rol=request.form['rol']
+        contra=request.form['contra']
+        hashed_contra = bcrypt.hashpw(contra.encode('utf-8'), bcrypt.gensalt())
+        
+        cursor=mysql.connection.cursor()
+        cursor.execute('CALL sp_update_medico(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', ([id], nombre, ap, am, rfc, tel, correo, cedula, rol, hashed_contra))
+        mysql.connection.commit()#con esto ya deberia hacer insercion en la db
+    return redirect(url_for('mostrar_adm_meds'))
+
 
 if __name__=='__main__':#es necesario hacer que main tenga dos guiones bajos
     app.run(port=3000, debug=True)

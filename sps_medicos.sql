@@ -205,4 +205,33 @@ CALL sp_ins_diagn('Dolor abdominal y nauseas', 'Omeprazol 20mg una vez al dia po
 CALL sp_ins_diagn('Fatiga y debilidad muscular', 'Suplementos de hierro, dieta rica en proteinas', 'Examen de sangre completo', 2);
 CALL sp_ins_diagn('Dolor de garganta y fiebre', 'Ibuprofeno 400mg cada 6 horas por 3 dias', 'Ninguno', 3);
 
-SELECT * FROM Diagnosticos;
+-- Procedimiento para actualizar los registro de los medicos
+DELIMITER //
+CREATE PROCEDURE sp_update_medico(
+	IN id int,
+    IN nom VARCHAR(100),
+    IN apellido_paterno VARCHAR(100),
+    IN apellido_materno VARCHAR(100),
+    IN rfc VARCHAR(30),
+    IN telefono VARCHAR(15),
+    IN correo VARCHAR(100),
+    IN cedula VARCHAR(100),
+    IN rol VARCHAR(40),
+    IN contra VARCHAR(150)
+)
+BEGIN
+    UPDATE Medicos 
+    SET 
+        nombre = nom, 
+        ap_p=apellido_paterno ,
+        ap_m=apellido_materno, 
+        rfc=rfc,
+        tel = telefono, 
+        correo = correo, 
+        cedula = cedula, 
+        rol = rol, 
+        contrasena = contra
+    WHERE id_medico=id;
+END //
+
+DELIMITER ;

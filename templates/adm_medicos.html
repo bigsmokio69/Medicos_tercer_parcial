@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Administrar Médicos</title>
+    <script src="/static/JS/script.js"></script>
 </head>
 <body>
     <h1>Administración de médicos</h1>
@@ -24,7 +25,23 @@
             </tr>
         </thead>
         <tbody>
-
+            {% for med in datos %}
+                <tr>
+                    <td>{{ med.0}} </td>
+                    <td>{{ med.1}} </td>
+                    <td>{{ med.2}} </td>
+                    <td>{{ med.3}} </td>
+                    <td>{{ med.4}} </td>
+                    <td>{{ med.5}} </td>
+                    <td>{{ med.6}} </td>
+                    <td>{{ med.7}} </td>
+                    <td>{{ med.8}} </td>
+                    <td>
+                        <a href="/ver_edit_medico/{{med.0}}">Editar</a>
+                        <a href=""  onclick="borrar('{{ med.0 }}', '{{ med.4 }}')">Borrar</a>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 

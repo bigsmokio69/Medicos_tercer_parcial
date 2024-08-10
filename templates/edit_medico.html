@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar médicos</title>
+</head>
+<body>
+
+    {%with mensajes=get_flashed_messages() %}
+    {%if mensajes%}
+        {%for msj in mensajes%}
+            <h1>{{ msj }}</h1>
+        {%endfor %}
+    {%endif %}
+    {%endwith%}
+
+    <h1>Editar a un médico</h1>
+
+    <div>
+        <form action="/edit_medico/{{ med.0 }}" method="POST">
+            <label for="nombre_med">Nombre</label>
+            <input type="text" name="nombre_med" value="{{ med.1 }}"><br>
+            <label for="ap_p">Apellido paterno</label>
+            <input type="text" name="ap_p" value="{{ med.2 }}"><br>
+            <label for="ap_m">Apellido materno</label>
+            <input type="text" name="ap_m" value="{{ med.3 }}" ><br>
+            <label for="rfc">RFC</label>
+            <input type="text" name="rfc" value="{{ med.4 }}"><br>
+            <label for="tel">Teléfono</label>
+            <input type="text" name="tel" value="{{ med.5 }}"><br>
+            <label for="correo">Correo</label>
+            <input type="text" name="correo" value="{{ med.6 }}"><br>
+            <label for="cedula">Cédula</label>
+            <input type="cedula" name="cedula" value="{{ med.7 }}"><br>
+            <label for="rol">Rol</label>
+            <select name="rol">
+                <option value="Medico" selected>Médico</option>
+                <option value="Administrador">Administrador</option>
+            </select><br>
+            <label for="contra">Contraseña</label>
+            <input type="text" name="contra" value="{{ med.9 }}"><br>
+            <button type="submit">Actualizar</button>
+            <button><a href="{{ url_for('mostrar_adm_meds') }}">Regresar a administrar médicos</a></button>
+        </form>
+    </div>
+</body>
+</html>
