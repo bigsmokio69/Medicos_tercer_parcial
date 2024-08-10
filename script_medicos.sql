@@ -64,3 +64,13 @@ CREATE TABLE Historial_medico(
     lpm VARCHAR(10),
     FOREIGN KEY (id_paciente) REFERENCES Pacientes(id_paciente)
 );
+
+CREATE TABLE Medicos_Log (
+    id_log INT AUTO_INCREMENT PRIMARY KEY,
+    id_medico INT,
+    operacion VARCHAR(10),
+    nombre VARCHAR(100),
+    ap_p VARCHAR(100),
+    ap_m VARCHAR(100),
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

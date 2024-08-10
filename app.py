@@ -78,5 +78,9 @@ def mostrar_dashboard():
 def mostrar_dash_admins():
     return render_template('dash_admins.html')
 
+@app.route('/adm_meds')
+def mostrar_adm_meds():
+    return render_template('adm_medicos.html')
+
 if __name__=='__main__':#es necesario hacer que main tenga dos guiones bajos
     app.run(port=3000, debug=True)
