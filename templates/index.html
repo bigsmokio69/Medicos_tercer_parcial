@@ -19,13 +19,11 @@
         <h1>Inicio de sesión</h1>
         <p>Sitio administrador</p>
         <form action="/login" method="POST">
-            <input type="text" placeholder="RFC" required>
-            <input type="password" placeholder="Contraseña" required>
+            <input type="text" placeholder="RFC" name="rfc" required>
+            <input type="password" placeholder="Contraseña" name="contra" required>
             <button type="submit">Iniciar</button>
         </form>
         <a href="#">¿Eres paciente?</a>
-
-        <button class="register-button" href="{{ url_for('mostrar_registro') }}">Registrar nuevo médico</button>
     </div>
 
     
