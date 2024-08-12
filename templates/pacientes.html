@@ -32,7 +32,7 @@
                     <input class="filter-btn" type="text" id="patient-name-filter" placeholder="Filtrar por nombre"> 
                     <button id="show-all-btn" class="filter-btn">Mostrar todas las citas</button>
                     <button id="add-paciente-btn" class="filter-btn">
-                        <img src="img/add-paciente.png" alt="Agregar Paciente">
+                        <img src="{{ url_for('static', filename='img/add-paciente.png') }}" alt="Agregar Paciente">
                     </button>
                 </div>
 
@@ -105,12 +105,12 @@
 
                     <!-- Este es el boton que manda a llamar el Modal que edita al paciente -->
                     <button class="delete-btn" onclick="showEditModal('Aguillon Torrijos Estrella', '2003-09-17', 'Ninguna', 'Ninguna', 'Diabetes por parte de la madre')">
-                        <img src="img/edit_icon.png" alt="Edit">
+                        <img src="{{ url_for('static', filename='img/edit_icon.png') }}" alt="Edit">
                     </button>
                     
                     <!-- Este es el boton que manda a llamar el Modal que borra al paciente, PERO no lo va a borrar completamente, si se llega a poder se debe mandar a la "papelera". pero sino se puede, pues si se borra alv -->
                     <button class="delete-btn" onclick="showDeleteConfirmation('ID_DEL_PACIENTE')">
-                        <img src="img/trash_icon.png" alt="Delete">
+                        <img src="{{ url_for('static', filename='img/trash_icon.png') }}" alt="Delete">
                     </button>
                     
                 </div>
