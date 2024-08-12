@@ -1,0 +1,231 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+/*HEADER*/
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    background-color: #4caf50;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.trash-icon img {
+    width: 40px;
+    height: 40px;
+}
+
+/*FIN HEADER*/
+
+main {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+}
+
+.left-panel, .right-panel {
+    background-color: #e0f7fa;
+    border-radius: 10px;
+    padding: 20px;
+    height: 80vh; 
+}
+
+
+.left-panel {
+    flex: 2;
+    margin-right: 20px;
+    overflow-y: auto;
+}
+
+.right-panel {
+    flex: 1;
+}
+
+h2 {
+    margin-top: 0;
+    color: #00796b;
+}
+
+/* Estilos para el contenedor de 'Próximas citas' y los botones de filtrado */
+.prox-citas-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.prox-citas {
+    margin: 0;
+    color: #00796b;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.filter-btn::placeholder {
+    color: white; 
+}
+
+.filter-btn:hover {
+    background-color: #388e3c;
+}
+
+.appointment {
+    margin-bottom: 20px;
+}
+
+.appointment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-info p {
+    margin: 0;
+    font-weight: bold;
+    color: #00796b;
+}
+
+.appointment-info span {
+    color: #757575;
+    font-size: 14px;
+}
+
+.appointment-actions {
+    display: flex;
+    align-items: center;
+}
+
+.edit-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-btn img {
+    width: 30px;
+    height: 30px;
+}
+
+.calendar {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.calendar table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.calendar th {
+    background-color: #00796b;
+    color: white;
+    padding: 10px 0;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.calendar td {
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+}
+
+.calendar td:hover {
+    background-color: #e0f2f1;
+}
+
+label {
+    font-weight: bold;
+    color: #00796b;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="time"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.add-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    background-color: #388e3c;
+}

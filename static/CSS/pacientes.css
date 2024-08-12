@@ -1,0 +1,491 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+/*HEADER*/
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    background-color: #4caf50;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.trash-icon img {
+    width: 40px;
+    height: 40px;
+}
+
+/*FIN HEADER*/
+
+.content {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+}
+
+
+.left-panel, .right-panel {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    background-color: #e0f7fa;
+    border-radius: 10px;
+    padding: 20px;
+    height: 80vh; 
+}
+
+.left-panel {
+    flex: 2;
+    margin-right: 10px;
+    overflow-y: auto;
+}
+
+.right-panel {
+    flex: 2;
+    margin-left: 10px;
+}
+
+/* Estilos para el contenedor de 'Próximas citas' y los botones de filtrado */
+.prox-citas-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.prox-citas {
+    margin: 0;
+    color: #00796b;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.filter-btn::placeholder {
+    color: white; 
+}
+
+.filter-btn:hover {
+    background-color: #388e3c;
+}
+
+#add-paciente-btn img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.appointment {
+    margin-bottom: 20px;
+}
+
+.appointment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-info p {
+    margin: 0;
+    font-weight: bold;
+    color: #00796b;
+}
+
+.appointment-info span {
+    color: #757575;
+    font-size: 14px;
+}
+
+.appointment-actions {
+    display: flex;
+    align-items: center;
+}
+
+.edit-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-btn img {
+    width: 30px;
+    height: 30px;
+}
+
+
+.worker, .order {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin: 0.5rem 0;
+}
+
+.worker:hover, .order:hover {
+    background-color: #f0f0f0;
+}
+
+.details-btn {
+    background-color: #0057b7;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.detalles-pacientes {
+    background-color: white;
+    border: 1px solid #ddd;
+    margin-top: 1rem;
+    border-radius: 10px;
+    padding: 20px; /* Ajusta el padding según sea necesario */
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Necesario para posicionar los botones en la parte inferior derecha */
+}
+
+
+.patient-details, .recetas-anteriores {
+    background-color: white;
+    border: 1px solid #ddd;
+    margin-top: 1rem;
+    align-items: center;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.details-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Alinea los elementos en la parte superior */
+    position: relative; /* Necesario para posicionar la imagen en la parte superior derecha */
+}
+
+.details-info {
+    margin-right: 120px; /* Ajusta el margen derecho para dar espacio a la imagen del perfil */
+}
+
+.profile-picture {
+    position: absolute;
+    top: 20px; /* Ajusta la distancia desde la parte superior del contenedor */
+    right: 20px; /* Ajusta la distancia desde el borde derecho del contenedor */
+    margin-left: 0; /* Asegúrate de que no haya margen izquierdo */
+}
+
+.profile-picture img {
+    border-radius: 50%;
+    width: 100px; /* Ajusta el tamaño de la imagen según sea necesario */
+    height: 100px; /* Ajusta el tamaño de la imagen según sea necesario */
+    object-fit: cover;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra ligera si es necesario */
+}
+
+
+.container-receta{
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.report-description {
+    max-height: 0; /* Ocultar descripción por defecto */
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    margin-top: 5px;
+}
+
+.container-receta.expanded .report-description {
+    max-height: 1000px; /* Altura suficiente para mostrar toda la descripción */
+}
+
+.container-receta.expanded {
+    max-height: 1000px; /* Altura ajustada cuando se expande */
+}
+
+
+.calendar {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.calendar table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.calendar th {
+    background-color: #00796b;
+    color: white;
+    padding: 10px 0;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.calendar td {
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+}
+
+.calendar td:hover {
+    background-color: #e0f2f1;
+}
+
+.toggle-buttons {
+    margin-bottom: 20px;
+}
+
+.toggle-buttons .filter-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.toggle-buttons .filter-btn:hover {
+    background-color: #398a3c;
+}
+
+.hidden {
+    display: none;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    position: absolute; /* Posicionamos los botones de manera absoluta */
+    bottom: 20px; /* Ajusta según el padding del contenedor */
+    right: 20px; /* Ajusta según el padding del contenedor */
+}
+
+
+.action-buttons .filter-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.action-buttons .filter-btn:hover {
+    background-color: #398a3c;
+}
+
+
+
+
+/* Estilos para el modal */
+.modal-custom {
+    display: none; /* Escondido por defecto */
+    position: fixed; /* Fijo en la pantalla */
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Cubre toda la pantalla */
+    height: 100%; /* Cubre toda la pantalla */
+    overflow: auto; /* Permite desplazamiento si es necesario */
+    background-color: rgba(0,0,0,0.4); /* Fondo oscuro semitransparente */
+}
+
+.modal-content-custom {
+    background-color: #fff; /* Fondo blanco */
+    margin: 15% auto; /* Centrado */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ancho del modal */
+}
+
+.close-btn-custom {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn-custom:hover,
+.close-btn-custom:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilo del formulario en el modal */
+#form-add-paciente-custom {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-add-paciente-custom label {
+    margin: 10px 0 5px;
+}
+
+#form-add-paciente-custom input,
+#form-add-paciente-custom textarea,
+#form-add-paciente-custom button {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#form-add-paciente-custom button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#form-add-paciente-custom button:hover {
+    background-color: #45a049;
+}
+
+#form-edit-paciente-custom label {
+    margin: 10px 0 5px;
+}
+
+.modal-custom {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content-custom {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close-btn-custom {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn-custom:hover,
+.close-btn-custom:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#form-edit-paciente-custom {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-edit-paciente-custom label {
+    margin: 10px 0 5px;
+}
+
+#form-edit-paciente-custom input, #form-edit-paciente-custom textarea, #form-edit-paciente-custom button {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#form-edit-paciente-custom button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#form-edit-paciente-custom button:hover {
+    background-color: #45a049;
+}
