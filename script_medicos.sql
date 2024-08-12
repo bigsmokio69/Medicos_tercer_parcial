@@ -1,17 +1,4 @@
 use db_medicos;
-CREATE TABLE Pacientes (
-    id_paciente INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    apellido_paterno VARCHAR(100) NOT NULL,
-    apellido_materno VARCHAR(100) NOT NULL, 
-    fecha_nacimiento DATE,
-    direccion VARCHAR(200),
-    telefono VARCHAR(15),
-    correo VARCHAR(100),
-    enfermedades VARCHAR(200),
-    alergias VARCHAR(200),
-    antecedentes_fam VARCHAR(200)
-);
 
 CREATE TABLE Medicos(
     id_medico INT AUTO_INCREMENT PRIMARY KEY,
@@ -24,6 +11,19 @@ CREATE TABLE Medicos(
     cedula VARCHAR(30),
     rol VARCHAR(40),
     contrasena VARCHAR(150)
+);
+
+CREATE TABLE Pacientes (
+    id_paciente INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido_paterno VARCHAR(100) NOT NULL,
+    apellido_materno VARCHAR(100) NOT NULL, 
+    fecha_nacimiento DATE,
+    enfermedades VARCHAR(200),
+    alergias VARCHAR(200),
+    antecedentes_fam VARCHAR(200),
+    id_medico INT,
+    foreign key (id_medico) references Medicos(id_medico)
 );
 
 CREATE TABLE Citas(

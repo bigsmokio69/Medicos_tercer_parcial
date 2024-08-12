@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for, session
 from flask_mysqldb import MySQL
 import bcrypt
 
@@ -23,7 +23,7 @@ def login():
     contra=request.form['contra']
     
     cursor=mysql.connection.cursor()
-    cursor.execute('SELECT contrasena, rol FROM medicos WHERE rfc = %s;', (rfc,))
+    cursor.execute('SELECT contrasena, rol, id_medico FROM medicos WHERE rfc = %s;', (rfc,))
     usuario = cursor.fetchone()
     
     if usuario:
@@ -31,8 +31,10 @@ def login():
         
         if bcrypt.checkpw(contra.encode('utf-8'), hashed_contra):
             if usuario[1]=='Administrador':
+                session['id_medico'] = usuario[2] #con el session ya tenemos el id para que el med solo vea sus pacientes y para el trigger
                 return redirect(url_for('mostrar_dash_admins')) #Si el medico tiene rol de admin se va a una pagina para admins
             else:
+                session['id_medico'] = usuario[2]
                 return redirect(url_for('mostrar_dashboard')) #y si no pus a la normal
         else:
             flash('Contraseña incorrecta')
@@ -72,6 +74,8 @@ def registrar():
 
 @app.route('/mostrar_dashboard')
 def mostrar_dashboard():
+    medicoID=session.get('id_medico')
+    print(f'Medico en dash normal {medicoID}')
     return render_template('dashboard.html')
 
 @app.route('/mostrar_dash_admins')
@@ -122,6 +126,12 @@ def edit_medico(id):
         cursor.execute('CALL sp_update_medico(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', ([id], nombre, ap, am, rfc, tel, correo, cedula, rol, hashed_contra))
         mysql.connection.commit()#con esto ya deberia hacer insercion en la db
     return redirect(url_for('mostrar_adm_meds'))
+
+@app.route('/mostrar_pacientes')
+def mostrar_pacientes():
+    medicoID=session.get('id_medico')
+    print(f'Medico en mostrar paciente {medicoID}')
+    return render_template('pacientes.html')
 
 
 if __name__=='__main__':#es necesario hacer que main tenga dos guiones bajos
