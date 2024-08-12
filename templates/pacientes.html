@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="CSS/pacientes.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/pacientes.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <title>Pacientes</title>
 </head>
@@ -354,7 +354,7 @@
 </script>
 
 
-<script src="js/script-pacientes.js"></script>
+<script src="{{ url_for('static', filename='js/script-pacientes.js') }}"></script>
 
 <script>
     document.getElementById('show-recipes-btn').addEventListener('click', function() {
