@@ -129,10 +129,30 @@ def edit_medico(id):
 
 @app.route('/mostrar_pacientes')
 def mostrar_pacientes():
-    medicoID=session.get('id_medico')
-    print(f'Medico en mostrar paciente {medicoID}')
-    return render_template('pacientes.html')
+    medicoId=session.get('id_medico')
+    cursor=mysql.connection.cursor()
+    cursor.execute('SELECT * FROM Pacientes WHERE id_medico=%s', (medicoId,))
+    consulta=cursor.fetchall()
+    return render_template('pacientes.html', pacientes=consulta)
 
+@app.route('/agregar_paciente',  methods=['POST'])
+def agregar_paciente():
+    if request.method=='POST':
+        medicoID=session.get('id_medico')
+                
+        nombre=request.form['patient-name']
+        ap=request.form['apellidoP']
+        am=request.form['apellidoM']
+        cumple=request.form['birth-date']
+        cronicas=request.form['chronic-diseases']
+        alergias=request.form['allergies']
+        antecedentes=request.form['family-history']
+        
+        cursor=mysql.connection.cursor()
+        cursor.execute('CALL sp_ins_paciente(%s, %s, %s, %s, %s, %s, %s, %s)', (nombre, ap, am, cumple, cronicas, alergias, antecedentes, medicoID))
+        mysql.connection.commit()
+        
+    return redirect(url_for('mostrar_pacientes'))
 
 if __name__=='__main__':#es necesario hacer que main tenga dos guiones bajos
     app.run(port=3000, debug=True)

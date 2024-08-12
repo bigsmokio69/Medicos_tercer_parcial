@@ -8,12 +8,10 @@ CREATE PROCEDURE sp_ins_paciente(
     IN ap_m VARCHAR(100),
     IN ap_p VARCHAR(100),
     IN nacimiento DATE,
-    IN direccion VARCHAR(200),
-    IN tel VARCHAR(15),
-    IN correo VARCHAR(100),
     IN enfermedades VARCHAR(200),
     IN alergias VARCHAR(200),
-    IN ant_fam VARCHAR(200)
+    IN ant_fam VARCHAR(200),
+    IN id_med INT
 )
 BEGIN
     INSERT INTO Pacientes(
@@ -21,24 +19,20 @@ BEGIN
         apellido_paterno, 
         apellido_materno, 
         fecha_nacimiento, 
-        direccion, 
-        telefono, 
-        correo, 
         enfermedades, 
         alergias, 
-        antecedentes_fam
+        antecedentes_fam,
+        id_medico
     ) 
     VALUES (
         nom, 
         ap_m, 
         ap_p, 
         nacimiento, 
-        direccion, 
-        tel, 
-        correo, 
         enfermedades, 
         alergias, 
-        ant_fam
+        ant_fam,
+        id_med
     );
 END //
 
