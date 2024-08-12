@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citas - Agregar citas</title>
+     <!-- Flatpickr CSS -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+     <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/citas.css') }}">
+</head>
+<body>
+    
+    <div class="container">
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="citas.html">Citas</a></li>
+                    <li><a href="pacientes.html">Pacientes</a></li>
+                    <li><a href="#">Administración</a></li>
+                </ul>
+            </nav>
+            <div class="trash-icon">
+                <img src="{{ url_for('static', filename='img/trash_icon.png') }}" alt="Trash Icon">
+            </div>
+        </header>
+        <main>
+
+
+            <div class="left-panel">
+
+                <!-- Contenedor de citas, concecta a la bd-->
+                <div class="prox-citas-container">
+                    <h2 class="prox-citas">Próximas citas</h2>
+                    <!-- Aquí puedes agregar los botones de filtrado -->
+                    <div class="filter-buttons">
+                        <input class="filter-btn" type="text" id="appointment-date" placeholder="Filtar por fecha" required">
+                        <input class="filter-btn" type="text" id="patient-name-filter" placeholder="Filtrar por nombre de paciente"> 
+                        <button id="show-all-btn" class="filter-btn">Mostrar todas las citas</button>
+                    </div>
+                </div>
+
+                <!-- Esta es la tarjeta de las citas, esto es lo que mandaremos a llamar desde la bd -->
+                <div class="appointment">
+
+                    <!-- Estre H3 va a cambiar dependiendo si existen citas en cierto mes -->
+                    <h3>ENERO - 2024</h3>
+
+                    <!-- en "data-date" es para lograr el filtrado, ese debe acomodarse dependiendo de la base de datos, esa fecha es la fecha del dia de la cita -->
+                    <div class="appointment-item" data-date="2024-01-31">
+                        <div class="appointment-info">
+                            <!-- Nombre que depende de la bd -->
+                            <p>Aguillon Torrijos Estrella</p>
+                            <!-- hora que depende de la bd -->
+                            <span>12:00 p.m.</span>
+                        </div>
+
+                        <!-- Estos botones todavia no tienen funcion xd -->
+                        <div class="appointment-actions">
+                            <button class="edit-btn">31</button>
+                            <button class="delete-btn"><img src="{{ url_for('static', filename='img/edit_icon.png') }}" alt="Edit"></button>
+                            <button class="delete-btn"><img src="{{ url_for('static', filename='img/trash_icon.png') }}" alt="Delete"></button>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            
+            </div>
+
+            <!-- Aqui agrega la cita, se conecta con la bd-->
+            <div class="right-panel">
+                <h2>Agendar cita</h2>
+                <form>
+                    <label for="patient-name">Nombre del paciente</label>
+                    <input type="text" id="patient-name" placeholder="Nombre del paciente" required>
+                    
+                    <label for="appointment-date">Fecha de cita</label>
+                    <input type="text" id="appointment-date" placeholder="Seleccione una fecha" required>
+                    
+                    <label for="appointment-time">Horario</label>
+                    <input type="time" id="appointment-time" required>
+                    
+                    <button type="submit" class="add-btn">Agregar</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Flatpickr en español -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <!-- Inicializa Flatpickr -->
+    <script>
+        flatpickr("#appointment-date", {
+            dateFormat: "Y-m-d", // Formato que se usará para el valor del input
+            altInput: true,
+            altFormat: "d-m-Y", // Formato visible al usuario
+            allowInput: true,
+            disableMobile: "true",
+            locale: "es",
+        });
+    </script>
+
+    
+    <script>
+        document.getElementById('appointment-date').addEventListener('input', function() {
+            const selectedDate = this.value;
+            const appointments = document.querySelectorAll('.appointment-item');
+            
+            appointments.forEach(function(appointment) {
+                const appointmentDate = appointment.getAttribute('data-date');
+                if (appointmentDate === selectedDate) {
+                    appointment.style.display = 'flex';
+                } else {
+                    appointment.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+    <script src="{{ url_for('static', filename='js/script-citas.js') }}"></script>
+    
+</body>
+</html>
