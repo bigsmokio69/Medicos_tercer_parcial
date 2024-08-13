@@ -1,3 +1,12 @@
+-- Vista sencilla de pacientes
+CREATE VIEW vista_pacientes AS
+SELECT * FROM Pacientes;
+
+-- Vista sencilla de medicos
+CREATE VIEW vista_medicos AS
+SELECT * FROM Medicos;
+
+-- Vista detalles pacientes
 CREATE VIEW vw_PacienteDetalles AS
 SELECT 
     CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS `Paciente`,

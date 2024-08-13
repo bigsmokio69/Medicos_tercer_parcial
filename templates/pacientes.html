@@ -121,7 +121,7 @@
                     
                 </div>
 
-                <!-- Modal para editar paciente -->
+                <!-- Modal para editar paciente
                     <div id="modalEditPaciente" class="modal-custom">
                         <div class="modal-content-custom">
                             <span class="close-btn-custom">&times;</span>
@@ -145,7 +145,7 @@
                                 <button type="submit">Guardar Cambios</button>
                             </form>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- Modal de confirmación de eliminación -->
                     <div id="modalDeleteConfirmation" class="modal-custom">
@@ -246,11 +246,12 @@
 
             </div>
 
+            <!--En esta sección se ven todos los pacientes de un médico literal con el for y ya-->
             {% for paci in pacientes %}
-                <div class="appointment-item" data-date="2024-01-31" onclick="showDetails('Aguillon Torrijos Estrella', '2003-09-17', 'Ninguna', 'Ninguna', 'Diabetes por parte de la madre', '2024-01-31', 'img/hoshii.png')">
+                <div class="appointment-item" data-date="2024-01-31" onclick="showDetails('{{paci.1}}', '{{paci.2}}', '{{paci.3}}', '{{paci.4}}', '{{paci.5}}', '{{paci.6}}', '{{paci.7}}','2024-01-31', 'img/hoshii.png')">
                     <div class="appointment-info">
                         <!-- Nombre que se muestra dependiendo de la bd -->
-                        <p>{{ paci.0 }} {{ paci.1 }} {{ paci.2 }}</p>
+                        <p>{{ paci.1 }} {{ paci.2 }} {{ paci.3 }}</p>
 
                         <!-- Fecha que se muestra dependiendo de la bd, esta tiene formato de año-mes-dia -->
                         <span>Fecha de registro: YYYY-MM-DD</span>
@@ -258,7 +259,7 @@
                     <div class="appointment-actions">
 
                         <!-- Este es el boton que manda a llamar el Modal que edita al paciente -->
-                        <button class="delete-btn" onclick="showEditModal('Aguillon Torrijos Estrella', '2003-09-17', 'Ninguna', 'Ninguna', 'Diabetes por parte de la madre')">
+                        <button class="delete-btn" onclick="showEditModal('{{ paci.1 }}', '{{ paci.2 }}', '{{ paci.3 }}', '{{ paci.4 }}', '{{ paci.5 }}', '{{ paci.6 }}', '{{ paci.7 }}')">
                             <img src="{{ url_for('static', filename='img/edit_icon.png') }}" alt="Edit">
                         </button>
                         
@@ -277,6 +278,12 @@
                                 <form id="form-edit-paciente-custom">
                                     <label for="edit-patient-name">Nombre del Paciente:</label>
                                     <input type="text" id="edit-patient-name" name="edit-patient-name" required>
+
+                                    <label for="edit-ap">Apellido Paterno:</label>
+                                    <input type="text" id="edit-ap" name="edit-ap" required>
+
+                                    <label for="edit-am">Apellido Materno:</label>
+                                    <input type="text" id="edit-am" name="edit-am" required>
 
                                     <label for="edit-birth-date">Fecha de Nacimiento:</label>
                                     <input type="date" id="edit-birth-date" name="edit-birth-date" required>
@@ -369,8 +376,10 @@
                             var spanCloseEditPaciente = document.getElementsByClassName("close-btn-custom")[1]; // Nota: Cambiado a [1] para seleccionar el segundo elemento de la clase
 
                             // Función para mostrar el modal con los datos del paciente
-                            function showEditModal(patientName, birthDate, chronicDiseases, allergies, familyHistory) {
+                            function showEditModal(patientName, apellidoP, apellidoM, birthDate, chronicDiseases, allergies, familyHistory) {
                                 document.getElementById('edit-patient-name').value = patientName;
+                                document.getElementById('edit-ap').value=apellidoP;
+                                document.getElementById('edit-am').value=apellidoM;
                                 document.getElementById('edit-birth-date').value = birthDate;
                                 document.getElementById('edit-chronic-diseases').value = chronicDiseases;
                                 document.getElementById('edit-allergies').value = allergies;
@@ -393,8 +402,7 @@
                         </script>
 
                 </div>
-            {% endfor %}
-
+            {% endfor %} 
 
         </div>
 
@@ -408,6 +416,10 @@
                     <div class="appointment-info">
                         <div class="details-info">
                             <p>Nombre del paciente: <span id="patient-name"></span></p>
+                            <br>
+                            <p>Nombre del paciente: <span id="patient-ap"></span></p>
+                            <br>
+                            <p>Nombre del paciente: <span id="patient-am"></span></p>
                             <br>
                             <p>Fecha de nacimiento: <span id="patient-birthday"></span></p>
                             <br>

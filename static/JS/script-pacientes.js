@@ -1,5 +1,7 @@
-function showDetails( name, birthday, chronicDiseases, allergies, familyHistory, appointment, image) {
+function showDetails( name, ap, am, birthday, chronicDiseases, allergies, familyHistory, appointment, image) {
     document.getElementById('patient-name').innerText = name;
+    document.getElementById('patient-ap').innerText = ap;
+    document.getElementById('patient-am').innerText = am;
     document.getElementById('patient-birthday').innerText = birthday;
     document.getElementById('patient-chronicDiseases').innerText = chronicDiseases; // Aquí puedes añadir los datos correspondientes
     document.getElementById('patient-allergies').innerText = allergies; // Aquí puedes añadir los datos correspondientes

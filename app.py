@@ -85,7 +85,7 @@ def mostrar_dash_admins():
 @app.route('/mostrar_adm_meds')
 def mostrar_adm_meds():
     cursor=mysql.connection.cursor()
-    cursor.execute('SELECT * FROM Medicos')
+    cursor.execute('SELECT * FROM vista_medicos')
     consulta=cursor.fetchall()
     return render_template('adm_medicos.html', datos=consulta)
 
@@ -153,6 +153,16 @@ def agregar_paciente():
         mysql.connection.commit()
         
     return redirect(url_for('mostrar_pacientes'))
+
+@app.route('/editar_paciente')
+def editar_paciente():
+    
+    return redirect(url_for('mostrar_pacientes'))
+
+@app.route('/mostrar_citas')
+def mostrar_citas():
+    
+    return render_template('citas.html')
 
 if __name__=='__main__':#es necesario hacer que main tenga dos guiones bajos
     app.run(port=3000, debug=True)
