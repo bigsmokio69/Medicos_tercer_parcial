@@ -555,30 +555,79 @@ nav ul li a {
     background-color: #45a049;
 }
 
-.custom-table {
+#custom-table-paciente {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
-.custom-table th, .custom-table td {
+#custom-table-paciente th, #custom-table-paciente td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
-.custom-table th {
+#custom-table-paciente th {
     background-color: #4caf50;
     color: white;
     font-weight: bold;
 }
 
-.custom-table tr:nth-child(even) {
+#custom-table-paciente tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-.custom-table tr:hover {
+#custom-table-paciente tr:hover {
     background-color: #ddd;
+}
+
+#custom-table-medico {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#custom-table-medico th, #custom-table-medico td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#custom-table-medico th {
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+}
+
+#custom-table-medicoe tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#custom-table-medico tr:hover {
+    background-color: #ddd;
+}
+.toggle-buttons {
+    margin-bottom: 20px;
+}
+
+.toggle-buttons .filter-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.toggle-buttons .filter-btn:hover {
+    background-color: #398a3c;
+}
+
+.hidden {
+    display: none;
 }
 
 #add-medic-btn-1 img {

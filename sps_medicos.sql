@@ -44,7 +44,7 @@ DELIMITER ;
 CALL sp_ins_paciente('Juan', 'Perez', 'Lopez', '1980-05-15', 'Diabetes', 'Penicilina', 'Padre: Hipertensión', 1);
 CALL sp_ins_paciente('Maria', 'Gomez', 'Sanchez', '1990-08-25', 'Asma', 'Ninguna', 'Madre: Asma', 2);
 CALL sp_ins_paciente('Carlos', 'Hernandez', 'Diaz', '1975-12-10', 'Hipertensión', 'Polen', 'Tío: Diabetes', 3);
-CALL sp_ins_paciente('Ana', 'Martinez', 'Ramirez', '1985-03-30', 'Colesterol alto', 'Frutos secos', 'Hermana: Hipertensión', );
+CALL sp_ins_paciente('Ana', 'Martinez', 'Ramirez', '1985-03-30', 'Colesterol alto', 'Frutos secos', 'Hermana: Hipertensión');
 
 -- Procedimiento para insertar medicos
 DELIMITER //
@@ -156,5 +156,15 @@ IN idPac int
 )
 BEGIN
 	UPDATE pacientes SET estatus=0 where id_paciente=idPac;
+END //
+DELIMITER ;
+
+-- BORRADO LOGICO DE MEDICOS
+DELIMITER //
+CREATE PROCEDURE sp_logicdel_med(
+IN idMed int
+)
+BEGIN
+	UPDATE medicos SET estatus=0 where id_medico=idMed;
 END //
 DELIMITER ;
