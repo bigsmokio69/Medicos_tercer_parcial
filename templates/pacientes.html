@@ -328,9 +328,92 @@
                     </div>
                 </div>
 
+                                <!--Boton para el modal de expedientes-->
                 <div class="action-buttons">
-                    <button id="patient-file-btn" class="filter-btn">Expediente</button>
+                    <button id="patient-file-btn" class="filter-btn" onclick="showExpedientPatient('Nombre del Paciente', 'Edad', 'Peso', 'Altura', 'Temperatura', 'Latidos por Minuto', 'Enfermedades Crónicas', 'Alergias', 'Antecedentes Familiares')">     
+                        Expediente
+                    </button>                    
                 </div>
+
+                <!-- Modal para Expediente del Paciente -->
+            <!-- Modal de Expediente -->
+            <div id="modalExpedient" class="modal-custom">
+                <div class="modal-content-custom">
+                    <span class="close-btn-custom">&times;</span>
+                    <h2>Expediente del Paciente</h2>
+                    <form id="form-expedient-patient">
+                        <label for="expedient-patient-name">Nombre del Paciente:</label>
+                        <input type="text" id="expedient-patient-name" name="expedient-patient-name" required>
+
+                        <label for="expedient-patient-age">Edad:</label>
+                        <input type="number" id="expedient-patient-age" name="expedient-patient-age" required>
+
+                        <label for="expedient-patient-weight">Peso (kg):</label>
+                        <input type="number" id="expedient-patient-weight" name="expedient-patient-weight" step="0.1" required>
+
+                        <label for="expedient-patient-height">Altura (cm):</label>
+                        <input type="number" id="expedient-patient-height" name="expedient-patient-height" required>
+
+                        <label for="expedient-patient-temperature">Temperatura (°C):</label>
+                        <input type="number" id="expedient-patient-temperature" name="expedient-patient-temperature" step="0.1" required>
+
+                        <label for="expedient-patient-heartRate">Latidos por Minuto:</label>
+                        <input type="number" id="expedient-patient-heartRate" name="expedient-patient-heartRate" required>
+
+                        <label for="expedient-patient-birthday">Fecha de nacimiento:</label>
+                        <input type="date" id="expedient-patient-birthday" name="expedient-patient-birthday" required>
+
+                        <label for="expedient-patient-chronicDiseases">Enfermedades crónicas:</label>
+                        <textarea id="expedient-patient-chronicDiseases" name="expedient-patient-chronicDiseases"></textarea>
+
+                        <label for="expedient-patient-allergies">Alergias:</label>
+                        <textarea id="expedient-patient-allergies" name="expedient-patient-allergies"></textarea>
+
+                        <label for="expedient-patient-familyHistory">Antecedentes familiares:</label>
+                        <textarea id="expedient-patient-familyHistory" name="expedient-patient-familyHistory"></textarea>
+
+                        <label for="expedient-patient-lastAppointment">Última cita:</label>
+                        <input type="date" id="expedient-patient-lastAppointment" name="expedient-patient-lastAppointment">
+
+                        <button type="submit">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+
+            <script>
+                // Selección de elementos del DOM para el modal de expediente
+                var modalExpedient = document.getElementById("modalExpedient");
+                var spanCloseExpedient = document.getElementsByClassName("close-btn-custom")[0];
+
+                // Función para mostrar el modal de expediente con los datos del paciente
+                function showExpedientPatient(name, age, weight, height, temperature, heartRate, birthDate, chronicDiseases, allergies, familyHistory, lastAppointment) {
+                    document.getElementById('expedient-patient-name').value = name;
+                    document.getElementById('expedient-patient-age').value = age;
+                    document.getElementById('expedient-patient-weight').value = weight;
+                    document.getElementById('expedient-patient-height').value = height;
+                    document.getElementById('expedient-patient-temperature').value = temperature;
+                    document.getElementById('expedient-patient-heartRate').value = heartRate;
+                    document.getElementById('expedient-patient-birthday').value = birthDate;
+                    document.getElementById('expedient-patient-chronicDiseases').value = chronicDiseases;
+                    document.getElementById('expedient-patient-allergies').value = allergies;
+                    document.getElementById('expedient-patient-familyHistory').value = familyHistory;
+                    document.getElementById('expedient-patient-lastAppointment').value = lastAppointment;
+                    
+                    modalExpedient.style.display = "block";
+                }
+
+                // Cierra el modal de expediente cuando se hace clic en la "X"
+                spanCloseExpedient.onclick = function() {
+                    modalExpedient.style.display = "none";
+                }
+
+                // Cierra el modal de expediente si se hace clic fuera del contenido del modal
+                window.onclick = function(event) {
+                    if (event.target == modalExpedient) {
+                        modalExpedient.style.display = "none";
+                    }
+                }
+            </script>
 
             </div>
 
@@ -338,6 +421,7 @@
             <div class="toggle-buttons">
                 <button id="show-recipes-btn" class="filter-btn">Recetas</button>
                 <button id="show-appointments-btn" class="filter-btn">Citas</button>
+                <button id="show-generateRecipes-btn" class="filter-btn">Generar Receta</button>
             </div>
 
             <!-- Contenedores de recetas y citas, se conectan a la bd-->
@@ -371,6 +455,26 @@
                     </div>
                 </div>
 
+            </div>
+
+            <div id="generateRecipes-section" class="hidden">
+                <h3 class="prox-citas">Generador de recetas</h3>
+            
+                <!-- Esta es la tarjeta que muestra las CITAS, se conecta a la bd -->
+                <div class="container-receta">
+                    <label for="paciente">Nombre del paciente:</label>
+                    <input type="text" id="paciente" name="paciente">
+            
+                    <label for="medico">Nombre del médico:</label>
+                    <input type="text" id="medico" name="medico">
+            
+                    <label for="medicamentos">Medicamentos:</label>
+                    <input type="text" id="medicamentos" name="medicamentos">
+            
+                    <div class="details-button">
+                        <button class="filter-btn">Generar</button>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -416,17 +520,25 @@
 
     <script src="{{ url_for('static', filename='js/script-pacientes.js') }}"></script>
 
-    <script>
-        document.getElementById('show-recipes-btn').addEventListener('click', function () {
-            document.getElementById('recipes-section').style.display = 'block';
-            document.getElementById('appointments-section').style.display = 'none';
-        });
+   <script>
+    document.getElementById('show-recipes-btn').addEventListener('click', function() {
+        document.getElementById('recipes-section').style.display = 'block';
+        document.getElementById('appointments-section').style.display = 'none';
+        document.getElementById('generateRecipes-section').style.display = 'none';
+    });
 
-        document.getElementById('show-appointments-btn').addEventListener('click', function () {
-            document.getElementById('recipes-section').style.display = 'none';
-            document.getElementById('appointments-section').style.display = 'block';
-        });
-    </script>
+    document.getElementById('show-appointments-btn').addEventListener('click', function() {
+        document.getElementById('recipes-section').style.display = 'none';
+        document.getElementById('appointments-section').style.display = 'block';
+        document.getElementById('generateRecipes-section').style.display = 'none';
+    });
+
+    document.getElementById('show-generateRecipes-btn').addEventListener('click', function() {
+        document.getElementById('recipes-section').style.display = 'none';
+        document.getElementById('appointments-section').style.display = 'none';
+        document.getElementById('generateRecipes-section').style.display = 'block';
+    });
+</script>
 
 </body>
 
