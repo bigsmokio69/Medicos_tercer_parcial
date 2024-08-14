@@ -554,13 +554,17 @@
             <div class="right-panel">
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
-        
                     <div class="text-center">
                         <h1 class="mb-0">Historial de cambios</h1>
                     </div>
                 </div>
-
-                <table class="custom-table">
+                
+                <div class="toggle-buttons">
+                    <button id="show-pacientes-btn" class="filter-btn">Cambios pacientes</button>
+                    <button id="show-medicos-btn" class="filter-btn">Cambios médicos</button>
+                </div>
+                
+                <table id="custom-table-paciente" class="hidden">
                     <thead>
                         <tr>
                             <th>Nombre medico</th>
@@ -570,20 +574,55 @@
                     </thead>
                     <tbody>
                         <tr>
-
-                            <!-- Nombre del medico -->
                             <td>Dr. Juan Pérez</td>
-
-                            <!-- Cambio -->
                             <td>INSERT</td>
-                            <!-- Fecha y hora -->
                             <td>12/08/2024 10:30 AM</td>
                         </tr>
-            
-                        
                     </tbody>
                 </table>
+                
+                <table id="custom-table-medico" class="hidden">
+                    <thead>
+                        <tr>
+                            <th>Nombre medico</th>
+                            <th>Cambio realizado</th>
+                            <th>Fecha y hora del cambio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>aaaaa</td>
+                            <td>INSERT</td>
+                            <td>12/08/2024 10:30 AM</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
             </div>
+            
+
+            <script>
+                document.getElementById('show-pacientes-btn').addEventListener('click', function() {
+                    document.getElementById('custom-table-paciente').classList.remove('hidden');
+                    document.getElementById('custom-table-medico').classList.add('hidden');
+                
+                    // Cambiar la clase activa del botón
+                    document.getElementById('show-pacientes-btn').classList.add('active');
+                    document.getElementById('show-medicos-btn').classList.remove('active');
+                });
+                
+                document.getElementById('show-medicos-btn').addEventListener('click', function() {
+                    document.getElementById('custom-table-paciente').classList.add('hidden');
+                    document.getElementById('custom-table-medico').classList.remove('hidden');
+                
+                    // Cambiar la clase activa del botón
+                    document.getElementById('show-pacientes-btn').classList.remove('active');
+                    document.getElementById('show-medicos-btn').classList.add('active');
+                });
+                
+            </script>
+
+        </div>
             
 
 
