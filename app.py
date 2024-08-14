@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash, url_for, session
+from flask import Flask, render_template, request, redirect, flash, url_for, session, jsonify
 from flask_mysqldb import MySQL
 import bcrypt
 
@@ -50,6 +50,8 @@ def mostrar_registro():
 @app.route('/registrar', methods=['POST'])
 def registrar():
     if request.method=='POST':
+        medicoId=session.get('id_medico')
+        
         nombre=request.form['nombre_med']
         ap=request.form['ap_p']
         am=request.form['ap_m']
@@ -63,7 +65,11 @@ def registrar():
                 
         if contra==conf:
             hashed_contra = bcrypt.hashpw(contra.encode('utf-8'), bcrypt.gensalt())
+            
             cursor=mysql.connection.cursor()
+            cursor.execute("INSERT INTO Temp_Session (ses_medico_id) VALUES (%s)", (medicoId,))
+            mysql.connection.commit()
+            
             cursor.execute('CALL sp_ins_medico (%s, %s, %s, %s, %s, %s, %s, %s, %s)', (nombre, ap, am, rfc, tel, correo, cedula, rol, hashed_contra))
             mysql.connection.commit()
             flash('Médico agregado correctamente')
@@ -92,11 +98,15 @@ def mostrar_adm_meds():
 @app.route('/borrarMed', methods=['POST'])
 def borrarMed():
     if request.method=='POST':
+        medicoId=session.get('id_medico')
         datos=request.get_json()
         print(datos)
         id=datos.get('ID_borrar')
         #Enviar a db
         cursor=mysql.connection.cursor()
+        cursor.execute("INSERT INTO Temp_Session (ses_medico_id) VALUES (%s)", (medicoId,))
+        mysql.connection.commit()
+        
         cursor.execute('DELETE FROM Medicos WHERE id_medico=%s', ([id]))
         mysql.connection.commit()
     return redirect(url_for('mostrar_adm_meds'))
@@ -111,6 +121,7 @@ def ver_edit_medico(id):
 @app.route('/edit_medico/<id>', methods=['POST'])
 def edit_medico(id):
     if request.method=='POST':
+        medicoId=session.get('id_medico')
         nombre=request.form['nombre_med']
         ap=request.form['ap_p']
         am=request.form['ap_m']
@@ -122,16 +133,22 @@ def edit_medico(id):
         contra=request.form['contra']
         hashed_contra = bcrypt.hashpw(contra.encode('utf-8'), bcrypt.gensalt())
         
+        
         cursor=mysql.connection.cursor()
+        
+        cursor.execute("INSERT INTO Temp_Session (ses_medico_id) VALUES (%s)", (medicoId,))
+        mysql.connection.commit()
+        
         cursor.execute('CALL sp_update_medico(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', ([id], nombre, ap, am, rfc, tel, correo, cedula, rol, hashed_contra))
         mysql.connection.commit()#con esto ya deberia hacer insercion en la db
+
     return redirect(url_for('mostrar_adm_meds'))
 
 @app.route('/mostrar_pacientes')
 def mostrar_pacientes():
     medicoId=session.get('id_medico')
     cursor=mysql.connection.cursor()
-    cursor.execute('SELECT * FROM Pacientes WHERE id_medico=%s', (medicoId,))
+    cursor.execute('SELECT * FROM vista_pacientes WHERE id_medico=%s and estatus=1', (medicoId,))
     consulta=cursor.fetchall()
     return render_template('pacientes.html', pacientes=consulta)
 
@@ -149,15 +166,68 @@ def agregar_paciente():
         antecedentes=request.form['family-history']
         
         cursor=mysql.connection.cursor()
+        cursor.execute("INSERT INTO Temp_Session (ses_medico_id) VALUES (%s)", (medicoID,))
+        mysql.connection.commit()
         cursor.execute('CALL sp_ins_paciente(%s, %s, %s, %s, %s, %s, %s, %s)', (nombre, ap, am, cumple, cronicas, alergias, antecedentes, medicoID))
         mysql.connection.commit()
         
     return redirect(url_for('mostrar_pacientes'))
 
-@app.route('/editar_paciente')
+@app.route('/editar_paciente', methods=['POST'])
 def editar_paciente():
-    
+    if request.method=='POST':
+        medicoID=session.get('id_medico')
+        
+        paciente_id=request.form['edit-idPac']
+        nombre=request.form['edit-patient-name']
+        ap=request.form['edit-apellidoP']
+        am=request.form['edit-apellidoM']
+        cumple=request.form['edit-birth-date']
+        cronicas=request.form['edit-chronic-diseases']
+        alergias=request.form['edit-allergies']
+        antecedentes=request.form['edit-family-history']
+        
+        print(f'Id del paciente en editar> {paciente_id}')
+        cursor=mysql.connection.cursor()
+        cursor.execute("INSERT INTO Temp_Session (ses_medico_id) VALUES (%s)", (medicoID,))
+        mysql.connection.commit()
+        
+        cursor.execute('''UPDATE pacientes SET nombre=%s, apellido_paterno=%s, apellido_materno=%s, fecha_nacimiento=%s, 
+                       enfermedades=%s, alergias=%s, antecedentes_fam=%s WHERE id_paciente=%s;''', (nombre, ap,am, cumple, cronicas,
+                        alergias, antecedentes, paciente_id))
+        mysql.connection.commit()
     return redirect(url_for('mostrar_pacientes'))
+
+@app.route('/borrar_paciente_logico', methods=['POST'])
+def borrar_paciente_logico():
+    if request.method == 'POST':
+        medicoID=session.get('id_medico')
+        if request.is_json:
+            datos = request.get_json()
+            print(datos)
+            id = datos.get('ID_borrar')
+
+            if id:
+                try:
+                    cursor = mysql.connection.cursor()
+                    cursor.execute("INSERT INTO Temp_Session (ses_medico_id) VALUES (%s)", (medicoID,))
+                    mysql.connection.commit()
+                    
+                    cursor.execute('CALL sp_logicdel_pac(%s);', (id,))
+                    mysql.connection.commit()
+                    return jsonify({'status': 'success', 'message': 'Paciente eliminado logicamente'}), 200
+                except Exception as e:
+                    print(f"Error al ejecutar el procedimiento almacenado: {e}")
+                    return jsonify({'status': 'error', 'message': 'Error en la eliminación lógica del paciente'}), 500
+            else:
+                return jsonify({'status': 'error', 'message': 'ID de paciente no proporcionado'}), 400
+        else:
+            return jsonify({'status': 'error', 'message': 'Unsupported Media Type'}), 415
+
+    return redirect(url_for('mostrar_pacientes'))
+
+
+#De prueba
 
 @app.route('/mostrar_citas')
 def mostrar_citas():

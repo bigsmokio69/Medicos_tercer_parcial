@@ -10,7 +10,8 @@ CREATE TABLE Medicos(
     correo VARCHAR(100),
     cedula VARCHAR(30),
     rol VARCHAR(40),
-    contrasena VARCHAR(150)
+    contrasena VARCHAR(150),
+    estatus INT DEFAULT 1
 );
 
 CREATE TABLE Pacientes (
@@ -23,6 +24,8 @@ CREATE TABLE Pacientes (
     alergias VARCHAR(200),
     antecedentes_fam VARCHAR(200),
     id_medico INT,
+    estatus INT DEFAULT 1,
+    fecha_registro DATE ,
     foreign key (id_medico) references Medicos(id_medico)
 );
 
@@ -67,10 +70,28 @@ CREATE TABLE Historial_medico(
 
 CREATE TABLE Medicos_Log (
     id_log INT AUTO_INCREMENT PRIMARY KEY,
-    id_medico INT,
-    operacion VARCHAR(10),
     nombre VARCHAR(100),
     ap_p VARCHAR(100),
     ap_m VARCHAR(100),
+	operacion VARCHAR(10),
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE Pacientes_Log (
+    id_log INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_medico VARCHAR(100),
+    ap_p VARCHAR(100),
+    ap_m VARCHAR(100),
+    operacion VARCHAR(10),
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Temp_Session (
+	id int AUTO_INCREMENT PRIMARY KEY,
+    ses_medico_id INT
+);
+
+-- Por si acaso
+-- ALTER table medicos ADD COLUMN estatus int default 1;
+-- ALTER table pacientes ADD COLUMN estatus int default 1;
+-- ALTER TABLE pacientes ADD COLUMN fecha_registro DATE;
