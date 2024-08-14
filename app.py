@@ -247,7 +247,10 @@ def mostrar_administracion():
     
     cursor.execute('SELECT * FROM medicos_log')
     consulta3=cursor.fetchall()
-    return render_template('administracion.html', pacientes=consulta, medicos=consulta2, medlogs=consulta3)
+    
+    cursor.execute('SELECT * FROM pacientes_log')
+    consulta4=cursor.fetchall()
+    return render_template('administracion.html', pacientes=consulta, medicos=consulta2, medlogs=consulta3, paclogs=consulta4)
 
 @app.route('/agregar_paciente2',  methods=['POST'])
 def agregar_paciente2():

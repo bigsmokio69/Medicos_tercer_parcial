@@ -653,7 +653,12 @@
                     </div>
                 </div>
 
-                <table class="custom-table">
+                <div class="toggle-buttons">
+                    <button id="show-pacientes-btn" class="filter-btn">Cambios pacientes</button>
+                    <button id="show-medicos-btn" class="filter-btn">Cambios médicos</button>
+                </div>
+
+                <table id="custom-table-paciente" class="hidden">
                     <thead>
                         <tr>
                             <th>Nombre medico</th>
@@ -662,16 +667,40 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for mdlog in medlogs %}
+                        {% for pacl in paclogs %}
                         <tr>
 
                             <!-- Nombre del medico -->
-                            <td>{{ mdlog.1 }} {{ mdlog.2 }} {{ mdlog.3 }}</td>
+                            <td>{{ pacl.1 }} {{ pacl.2 }} {{ pacl.3 }}</td>
 
                             <!-- Cambio -->
-                            <td>{{ mdlog.4 }}</td>
+                            <td>{{ pacl.4 }}</td>
                             <!-- Fecha y hora -->
-                            <td>{{ mdlog.5 }}</td>
+                            <td>{{ pacl.5 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <table id="custom-table-medico" class="hidden">
+                    <thead>
+                        <tr>
+                            <th>Nombre medico</th>
+                            <th>Cambio realizado</th>
+                            <th>Fecha y hora del cambio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for medl in medlogs %}
+                        <tr>
+
+                            <!-- Nombre del medico -->
+                            <td>{{ medl.1 }} {{ medl.2 }} {{ medl.3 }}</td>
+
+                            <!-- Cambio -->
+                            <td>{{ medl.4 }}</td>
+                            <!-- Fecha y hora -->
+                            <td>{{ medl.5 }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
