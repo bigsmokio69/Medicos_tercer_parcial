@@ -56,7 +56,7 @@ CREATE TABLE Recetas(
     FOREIGN KEY (id_paciente) REFERENCES Pacientes(id_paciente)
 );
 
-CREATE TABLE Historial_medico(
+CREATE TABLE Exploracion(
     id_historial INT AUTO_INCREMENT PRIMARY KEY,
     id_paciente INT,
     fecha_registro DATETIME,
