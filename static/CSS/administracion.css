@@ -1,0 +1,582 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+/*HEADER*/
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    background-color: #4caf50;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.trash-icon img {
+    width: 40px;
+    height: 40px;
+}
+
+/*FIN HEADER*/
+
+.content {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+    gap: 10px; /* Espacio entre los paneles */
+}
+
+.left-panel, .center-panel, .right-panel {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    background-color: #e0f7fa;
+    border-radius: 10px;
+    height: 80vh;
+}
+
+/* Ajuste para el panel central */
+.center-panel {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+
+.prox-citas-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.prox-citas {
+    margin: 0;
+    color: #00796b;
+}
+
+.d-flex {
+    flex-direction: column;
+    align-items: flex-start; /* Alinea los elementos al inicio del contenedor */
+}
+
+.text-center {
+    text-align: center;
+    width: 100%; /* Esto asegura que el título esté centrado en todo el contenedor */
+}
+
+.mb-3 {
+    margin-bottom: 1rem; /* Asegura que haya espacio entre el título y los botones */
+    color: #00796b;
+}
+
+
+.filter-buttons {
+    display: flex;
+    gap: 1%; /* Aumentar el espacio entre los botones */
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 1% 2%;
+    cursor: pointer;
+    font-size: 1rem;
+    flex: 1 1 18%; /* Ajusta el espacio que ocupan los botones */
+    max-width: 30%; /* Define un tamaño máximo para cada botón */
+    box-sizing: border-box;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.filter-btn::placeholder {
+    color: white;
+}
+
+.filter-btn:hover {
+    background-color: #388e3c;
+}
+
+#add-paciente-btn img {
+    width: 1.5rem; /* Ajuste del tamaño de la imagen */
+    height: 1.5rem;
+    object-fit: contain;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.appointment {
+    margin-bottom: 20px;
+}
+
+.appointment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 0.5rem; /* Ajuste en base al panel */
+    margin-bottom: 1rem;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Ocupa todo el ancho del panel */
+    box-sizing: border-box; /* Asegura que el padding no altere el tamaño */
+}
+
+.appointment-info p {
+    margin: 0;
+    font-weight: bold;
+    font-size: 1.1rem; /* Ajuste del tamaño del texto */
+    color: #00796b;
+}
+
+.appointment-info span {
+    color: #757575;
+    font-size: 0.9rem;
+}
+
+.appointment-actions {
+    display: flex;
+    align-items: center;
+}
+
+.edit-btn, .delete-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-right: 0.5rem; /* Espaciado entre los botones */
+}
+
+.delete-btn img, .edit-btn img {
+    width: 1.5rem; /* Ajuste del tamaño del icono */
+    height: 1.5rem;
+}
+
+.calendar {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.calendar table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.calendar th {
+    background-color: #00796b;
+    color: white;
+    padding: 10px 0;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.calendar td {
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+}
+
+.calendar td:hover {
+    background-color: #e0f2f1;
+}
+
+
+/* Estilos para el modal */
+.modal-custom {
+    display: none; /* Escondido por defecto */
+    position: fixed; /* Fijo en la pantalla */
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Cubre toda la pantalla */
+    height: 100%; /* Cubre toda la pantalla */
+    overflow: auto; /* Permite desplazamiento si es necesario */
+    background-color: rgba(0,0,0,0.4); /* Fondo oscuro semitransparente */
+}
+
+.modal-content-custom {
+    background-color: #fff; /* Fondo blanco */
+    margin: 15% auto; /* Centrado */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ancho del modal */
+}
+
+.close-btn-custom {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn-custom:hover,
+.close-btn-custom:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilo del formulario en el modal */
+#form-add-paciente-custom {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-add-paciente-custom label {
+    margin: 10px 0 5px;
+}
+
+#form-add-paciente-custom input,
+#form-add-paciente-custom textarea,
+#form-add-paciente-custom button {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#form-add-paciente-custom button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#form-add-paciente-custom button:hover {
+    background-color: #45a049;
+}
+
+#form-edit-paciente-custom label {
+    margin: 10px 0 5px;
+}
+
+.modal-custom {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content-custom {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close-btn-custom {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn-custom:hover,
+.close-btn-custom:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#form-edit-paciente-custom {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-edit-paciente-custom label {
+    margin: 10px 0 5px;
+}
+
+#form-edit-paciente-custom input, #form-edit-paciente-custom textarea, #form-edit-paciente-custom button {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#form-edit-paciente-custom button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#form-edit-paciente-custom button:hover {
+    background-color: #45a049;
+}
+
+.appointment {
+    margin-bottom: 20px;
+}
+
+.appointment-item-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 0.5rem; /* Ajuste en base al panel */
+    margin-bottom: 1rem;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Ocupa todo el ancho del panel */
+    box-sizing: border-box; /* Asegura que el padding no altere el tamaño */
+}
+
+.appointment-info-1 p {
+    margin: 0;
+    font-weight: bold;
+    font-size: 1.1rem; /* Ajuste del tamaño del texto */
+    color: #00796b;
+}
+
+.appointment-info-1 span {
+    color: #757575;
+    font-size: 0.9rem;
+}
+
+.appointment-actions-1 {
+    display: flex;
+    align-items: center;
+}
+
+.edit-btn, .delete-btn-1 {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-right: 0.5rem; /* Espaciado entre los botones */
+}
+
+.delete-btn-1 img, .edit-btn img {
+    width: 1.5rem; /* Ajuste del tamaño del icono */
+    height: 1.5rem;
+}
+
+.calendar {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.calendar table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.calendar th {
+    background-color: #00796b;
+    color: white;
+    padding: 10px 0;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.calendar td {
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+}
+
+.calendar td:hover {
+    background-color: #e0f2f1;
+}
+
+
+/* Estilos para el modal */
+.modal-custom-1 {
+    display: none; /* Escondido por defecto */
+    position: fixed; /* Fijo en la pantalla */
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Cubre toda la pantalla */
+    height: 100%; /* Cubre toda la pantalla */
+    overflow: auto; /* Permite desplazamiento si es necesario */
+    background-color: rgba(0,0,0,0.4); /* Fondo oscuro semitransparente */
+}
+
+.modal-content-custom-1 {
+    background-color: #fff; /* Fondo blanco */
+    margin: 15% auto; /* Centrado */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ancho del modal */
+}
+
+.close-btn-custom-1 {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn-custom-1:hover,
+.close-btn-custom-1:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilo del formulario en el modal */
+#form-add-medic-custom-1 {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-add-medic-custom-1label {
+    margin: 10px 0 5px;
+}
+
+#form-add-medic-custom-1 input,
+#form-add-medic-custom-1 textarea,
+#form-add-medic-custom-1 button {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#form-add-medic-custom-1 button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#form-add-medic-custom-1 button:hover {
+    background-color: #45a049;
+}
+
+#form-edit-medic-custom-1 label {
+    margin: 10px 0 5px;
+}
+
+.modal-custom-1 {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content-custom-1 {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close-btn-custom-1 {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn-custom-1:hover,
+.close-btn-custom-1:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#form-edit-medic-custom-1 {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-edit-medic-custom-1 label {
+    margin: 10px 0 5px;
+}
+
+#form-edit-medic-custom-1 input, #form-edit-medic-custom-1 textarea, #form-edit-medic-custom-1 button {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#form-edit-medic-custom-1 button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#form-edit-medic-custom-1 button:hover {
+    background-color: #45a049;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.custom-table th, .custom-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.custom-table th {
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+}
+
+.custom-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.custom-table tr:hover {
+    background-color: #ddd;
+}
