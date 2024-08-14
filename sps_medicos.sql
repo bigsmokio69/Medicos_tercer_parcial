@@ -148,3 +148,13 @@ BEGIN
 END //
 
 DELIMITER ;
+
+-- BORRADO LOGICO DE PACIENTES
+DELIMITER //
+CREATE PROCEDURE sp_logicdel_pac(
+IN idPac int
+)
+BEGIN
+	UPDATE pacientes SET estatus=0 where id_paciente=idPac;
+END //
+DELIMITER ;
