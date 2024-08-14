@@ -556,3 +556,31 @@ nav ul li a {
 #modalExpedient #form-expedient-patient button:hover {
     background-color: #398a3c;
 }
+
+
+.container-receta {
+    background-color: #ffffff; /* Fondo blanco */
+    border: 1px solid #ddd; /* Borde gris claro */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 20px; /* Espaciado interno */
+    margin-bottom: 20px; /* Espacio inferior */
+}
+
+.container-receta label {
+    display: block; /* Asegura que las etiquetas estén en su propia línea */
+    margin-bottom: 10px; /* Espaciado entre etiquetas y campos de entrada */
+    font-weight: bold; /* Texto en negrita */
+    color: #00796b; /* Color de texto acorde a la paleta */
+}
+
+.container-receta input[type="text"] {
+    width: 100%; /* Abarca el ancho completo del contenedor */
+    padding: 10px; /* Espaciado interno */
+    margin-bottom: 15px; /* Espacio inferior */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1); /* Sombra interna */
+    font-size: 16px; /* Tamaño de la fuente */
+    color: #333; /* Color del texto */
+}
