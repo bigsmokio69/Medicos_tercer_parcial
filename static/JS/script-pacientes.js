@@ -1,4 +1,4 @@
-function showDetails( name, ap, am, birthday, chronicDiseases, allergies, familyHistory, appointment, image) {
+function showDetails( name, ap, am, birthday, chronicDiseases, allergies, familyHistory, appointment, image, idPac) {
     document.getElementById('patient-name').innerText = name;
     document.getElementById('patient-ap').innerText = ap;
     document.getElementById('patient-am').innerText = am;
@@ -8,6 +8,8 @@ function showDetails( name, ap, am, birthday, chronicDiseases, allergies, family
     document.getElementById('patient-familyHistory').innerText = familyHistory; // Aquí puedes añadir los datos correspondientes
     document.getElementById('patient-appointment').innerText = appointment; // Aquí puedes añadir los datos correspondientes
     document.getElementById('profile-picture').src = image || 'img/default-profile.png';; // Cambia la fuente de la imagen de perfil según el paciente
+
+    document.getElementById('hid_pacId').value=idPac; // Para obtener el id en el modal de expediente
 }
 
 // Selecciona todos los botones de detalles

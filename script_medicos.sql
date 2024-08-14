@@ -59,12 +59,14 @@ CREATE TABLE Recetas(
 CREATE TABLE Exploracion(
     id_historial INT AUTO_INCREMENT PRIMARY KEY,
     id_paciente INT,
-    fecha_registro DATETIME,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     edad_paciente INT,
     peso VARCHAR(10),
     altura VARCHAR(10),
     temperatura VARCHAR(10),
     lpm VARCHAR(10),
+    oxigeno int,
+    glucosa int,
     FOREIGN KEY (id_paciente) REFERENCES Pacientes(id_paciente)
 );
 

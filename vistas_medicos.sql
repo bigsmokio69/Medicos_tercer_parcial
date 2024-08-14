@@ -29,7 +29,7 @@ LEFT JOIN Historial_medico h ON p.id_paciente = h.id_paciente;
 SELECT * FROM vw_PacienteDetalles;
 
 
--------------------->
+-- ------------------>
 CREATE VIEW vw_CitasDetalles AS
 SELECT 
     c.id_citas AS `ID Cita`,
@@ -43,7 +43,7 @@ LEFT JOIN Medicos m ON c.id_medico = m.id_medico;
 SELECT * FROM vw_CitasDetalles;
 
 
---------------------->
+-- ------------------->
 CREATE VIEW vw_Recetas AS
 SELECT 
     r.id_receta AS `ID Receta`,
@@ -54,4 +54,6 @@ FROM Recetas r
 LEFT JOIN Pacientes p ON r.id_paciente = p.id_paciente
 LEFT JOIN Medicos m ON r.id_medico = m.id_medico;
 
-SELECT * FROM vw_Recetas;
+-- Vista de citas
+CREATE VIEW vista_citas AS
+SELECT * FROM citas;

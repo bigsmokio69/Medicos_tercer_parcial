@@ -168,3 +168,21 @@ BEGIN
 	UPDATE medicos SET estatus=0 where id_medico=idMed;
 END //
 DELIMITER ;
+
+-- INSERTAR EXPLORACION
+DELIMITER //
+CREATE PROCEDURE sp_ins_exploracion(
+IN idPac int,
+IN edad int,
+IN pe VARCHAR(10),
+IN alt VARCHAR(10),
+IN temp VARCHAR(10),
+IN latidos VARCHAR(10),
+IN oxi int,
+IN gluco int
+)
+BEGIN
+	INSERT INTO Exploracion(id_paciente, fecha_registro, edad_paciente, peso, altura, temperatura, lpm, oxigeno, glucosa) VALUES
+    (idPac, NOW(), edad, pe, alt, temp, latidos, oxi, gluco);
+END //
+DELIMITER ;

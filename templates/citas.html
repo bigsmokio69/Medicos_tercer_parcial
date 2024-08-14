@@ -15,9 +15,9 @@
         <header>
             <nav>
                 <ul>
-                    <li><a href="citas.html">Citas</a></li>
-                    <li><a href="pacientes.html">Pacientes</a></li>
-                    <li><a href="#">Administración</a></li>
+                    <li><a href="{{ url_for( 'mostrar_citas' ) }}">Citas</a></li>
+                    <li><a href="{{ url_for( 'mostrar_pacientes' ) }}">Pacientes</a></li>
+                    <li><a href="{{ url_for( 'mostrar_administracion' ) }}">Administración</a></li>
                 </ul>
             </nav>
             <div class="trash-icon">
@@ -36,6 +36,7 @@
                     <div class="filter-buttons">
                         <input class="filter-btn" type="text" id="appointment-date" placeholder="Filtar por fecha" required">
                         <input class="filter-btn" type="text" id="patient-name-filter" placeholder="Filtrar por nombre de paciente"> 
+                        <input type="datetime-local">
                         <button id="show-all-btn" class="filter-btn">Mostrar todas las citas</button>
                     </div>
                 </div>

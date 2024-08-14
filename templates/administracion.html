@@ -13,9 +13,9 @@
     <header>
         <nav>
             <ul>
-                <li><a href="citas.html">Citas</a></li>
-                <li><a href="pacientes.html">Pacientes</a></li>
-                <li><a href="administracion.html">Administración</a></li>
+                <li><a href="{{ url_for( 'mostrar_citas' ) }}">Citas</a></li>
+                <li><a href="{{ url_for( 'mostrar_pacientes' ) }}">Pacientes</a></li>
+                <li><a href="{{ url_for( 'mostrar_administracion' ) }}">Administración</a></li>
             </ul>
         </nav>
         <div class="trash-icon">

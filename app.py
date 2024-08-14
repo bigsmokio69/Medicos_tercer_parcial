@@ -23,7 +23,7 @@ def login():
     contra=request.form['contra']
     
     cursor=mysql.connection.cursor()
-    cursor.execute('SELECT contrasena, rol, id_medico FROM medicos WHERE rfc = %s;', (rfc,))
+    cursor.execute('SELECT contrasena, rol, id_medico, nombre, ap_p, ap_m FROM medicos WHERE rfc = %s;', (rfc,))
     usuario = cursor.fetchone()
     
     if usuario:
@@ -32,9 +32,15 @@ def login():
         if bcrypt.checkpw(contra.encode('utf-8'), hashed_contra):
             if usuario[1]=='Administrador':
                 session['id_medico'] = usuario[2] #con el session ya tenemos el id para que el med solo vea sus pacientes y para el trigger
+                session['nombre'] = usuario[3]
+                session['ap_p'] = usuario[4]
+                session['ap_m'] = usuario[5]
                 return redirect(url_for('mostrar_administracion')) #Si el medico tiene rol de admin se va a una pagina para admins
             else:
                 session['id_medico'] = usuario[2]
+                session['nombre'] = usuario[3]
+                session['ap_p'] = usuario[4]
+                session['ap_m'] = usuario[5]
                 return redirect(url_for('mostrar_dashboard')) #y si no pus a la normal
         else:
             flash('Contraseña incorrecta')
@@ -144,13 +150,17 @@ def edit_medico():
 
     return redirect(url_for('mostrar_administracion'))
 
+# RUTAS DE PACIENTES
 @app.route('/mostrar_pacientes')
 def mostrar_pacientes():
     medicoId=session.get('id_medico')
     cursor=mysql.connection.cursor()
     cursor.execute('SELECT * FROM vista_pacientes WHERE id_medico=%s and estatus=1', (medicoId,))
     consulta=cursor.fetchall()
-    return render_template('pacientes.html', pacientes=consulta)
+    
+    cursor.execute('SELECT nombre, ap_p, ap_m FROM medicos WHERE id_medico=%s', (medicoId,))
+    consulta2=cursor.fetchone()
+    return render_template('pacientes.html', pacientes=consulta, doctor=consulta2)
 
 @app.route('/agregar_paciente',  methods=['POST'])
 def agregar_paciente():
@@ -226,13 +236,39 @@ def borrar_paciente_logico():
 
     return redirect(url_for('mostrar_pacientes'))
 
+@app.route('/exploracion', methods=['POST'])
+def exploracion():
+    if request.method=='POST':
+        
+        idPac=request.form['idPaciente']
+        edad=request.form['expedient-patient-age']
+        peso=request.form['expedient-patient-weight']
+        altura=request.form['expedient-patient-height']
+        tempe=request.form['expedient-patient-temperature']
+        oxigeno=request.form['expedient-patient-oxigen']
+        glucosa=request.form['expedient-patient-glucosa']
+        latidospm=request.form['expedient-patient-heartRate']
+        
+        cursor=mysql.connection.cursor()
+        cursor.execute('CALL sp_ins_exploracion(%s, %s, %s, %s, %s, %s, %s, %s)', (idPac, edad, peso, altura, tempe, latidospm, oxigeno, glucosa))
+        mysql.connection.commit()
+        
+        return redirect(url_for('mostrar_pacientes'))
 
-#De prueba
+@app.route('/nueva_receta', methods=['POST']) 
+def nueva_receta():
+    if request.method=='POST':
+        medicoId=session.get('id_medico')
+        
+        idPac=request.form['receta_id_pac_hid']
+        medicamentos=request.form['medicamentos']
+        
+        cursor=mysql.connection.cursor()
+        cursor.execute('INSERT INTO recetas (id_medico, id_paciente, medicamentos) VALUES (%s, %s, %s)', (medicoId, idPac, medicamentos))
+        mysql.connection.commit()
+    return redirect(url_for('mostrar_pacientes'))
 
-@app.route('/mostrar_citas')
-def mostrar_citas():
-    
-    return render_template('citas.html')
+
 
 #rutas de administración
 @app.route('/mostrar_administracion')
@@ -325,6 +361,41 @@ def borrar_paciente_logico2():
             return jsonify({'status': 'error', 'message': 'Unsupported Media Type'}), 415
 
     return redirect(url_for('mostrar_pacientes'))
+
+#CITAS
+@app.route('/agregar_cita', methods=['POST'])
+def agregar_cita():
+    if request.method=='POST':
+        medicoID=session.get('id_medico')
+        
+        pacienteID=request.form['paciente']
+        fecha=request.form['fecha']
+        hora=request.form['hora']
+        motivo=request.form['motivo']
+        
+        cursor=mysql.connection.cursor()
+                
+        cursor.execute('CALL sp_ins_cita(%s, %s, %s, %s, %s)', (pacienteID, medicoID, fecha, hora, motivo))
+        mysql.connection.commit()
+        
+    return redirect(url_for('mostrar_citas'))
+
+@app.route('/mostrar_citas')
+def mostrar_citas():
+    medicoId=session.get('id_medico')
+    cursor=mysql.connection.cursor()
+    cursor.execute('SELECT * FROM vista_citas WHERE id_medico=%s', (medicoId,))
+    consulta=cursor.fetchall()
+    return render_template('citas.html', citas=consulta)
+
+
+@app.route('/mostrar_citas2')
+def mostrar_citas2():
+    medicoId=session.get('id_medico')
+    cursor=mysql.connection.cursor()
+    cursor.execute('SELECT * FROM vista_citas WHERE id_medico=%s', (medicoId,))
+    consulta=cursor.fetchall()
+    return render_template('citas.html', citas=consulta)
 
 if __name__=='__main__':#es necesario hacer que main tenga dos guiones bajos
     app.run(port=3000, debug=True)
