@@ -580,3 +580,12 @@ nav ul li a {
 .custom-table tr:hover {
     background-color: #ddd;
 }
+
+#add-medic-btn-1 img {
+    width: 1.5rem; /* Ajuste del tamaño de la imagen */
+    height: 1.5rem;
+    object-fit: contain;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}

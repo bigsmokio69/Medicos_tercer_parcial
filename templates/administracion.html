@@ -103,152 +103,195 @@
 
             <!-- en "data-date" es para lograr el filtrado, ese debe acomodarse dependiendo de la base de datos, esa fecha es la fecha que fue registrado -->
             <!-- la funcion de showDetails es para que se muestren los detalles del paciente, esos datos son lo que saldran dependiendo de los datos que tenga la bd, la imagen podemos verla despues para que salgan xd -->
-            <div class="appointment-item" data-date="2024-01-31" onclick="showDetails('Aguillon Torrijos Estrella', '2003-09-17', 'Ninguna', 'Ninguna', 'Diabetes por parte de la madre', '2024-01-31', 'img/hoshii.png')">
+            <!--En esta sección se ven todos los pacientes de un médico literal con el for y ya-->
+            {% for paci in pacientes %}
+            <div class="appointment-item" data-date="2024-01-31"
+                onclick="showDetails('{{paci.1}}', '{{paci.2}}', '{{paci.3}}', '{{paci.4}}', '{{paci.5}}', '{{paci.6}}', '{{paci.7}}','2024-01-31', 'img/hoshii.png')">
                 <div class="appointment-info">
                     <!-- Nombre que se muestra dependiendo de la bd -->
-                    <p>Aguillon Torrijos Estrella</p>
+                    <p>{{ paci.1 }} {{ paci.2 }} {{ paci.3 }}</p>
 
                     <!-- Fecha que se muestra dependiendo de la bd, esta tiene formato de año-mes-dia -->
-                    <span>Fecha de registro: YYYY-MM-DD</span>
+                    <span>Fecha de registro: {{ paci.10 }}</span>
                 </div>
                 <div class="appointment-actions">
 
                     <!-- Este es el boton que manda a llamar el Modal que edita al paciente -->
-                    <button class="delete-btn" onclick="showEditModal('Aguillon Torrijos Estrella', '2003-09-17', 'Ninguna', 'Ninguna', 'Diabetes por parte de la madre')">
+                    <button class="delete-btn"
+                        onclick="showEditModal('{{ paci.1 }}', '{{ paci.2 }}', '{{ paci.3 }}', '{{ paci.4 }}', '{{ paci.5 }}', '{{ paci.6 }}', '{{ paci.7 }}', '{{ paci.0 }}')">
                         <img src="{{ url_for('static', filename='img/edit_icon.png') }}" alt="Edit">
                     </button>
-                    
+
                     <!-- Este es el boton que manda a llamar el Modal que borra al paciente, PERO no lo va a borrar completamente, si se llega a poder se debe mandar a la "papelera". pero sino se puede, pues si se borra alv -->
-                    <button class="delete-btn" onclick="showDeleteConfirmation('ID_DEL_PACIENTE')">
+                    <button class="delete-btn"
+                        onclick="showDeleteConfirmation('{{ paci.0 }}', '{{ paci.1 }}', '{{ paci.2 }}', '{{ paci.3 }}')">
                         <img src="{{ url_for('static', filename='img/trash_icon.png') }}" alt="Delete">
                     </button>
-                    
+
                 </div>
 
                 <!-- Modal para editar paciente -->
-                    <div id="modalEditPaciente" class="modal-custom">
-                        <div class="modal-content-custom">
-                            <span class="close-btn-custom">&times;</span>
-                            <h2>Editar Paciente</h2>
-                            <form id="form-edit-paciente-custom">
-                                <label for="edit-patient-name">Nombre del Paciente:</label>
-                                <input type="text" id="edit-patient-name" name="edit-patient-name" required>
+                <div id="modalEditPaciente" class="modal-custom">
+                    <div class="modal-content-custom">
+                        <span class="close-btn-custom">&times;</span>
+                        <h2>Editar Paciente</h2>
+                        <form id="form-edit-paciente-custom" action="/editar_paciente" method="POST">
+                            <input type="text" id="edit-idPac" name="edit-idPac">
 
-                                <label for="edit-birth-date">Fecha de Nacimiento:</label>
-                                <input type="date" id="edit-birth-date" name="edit-birth-date" required>
+                            <label for="edit-patient-name">Nombre del Paciente:</label>
+                            <input type="text" id="edit-patient-name" name="edit-patient-name" required>
 
-                                <label for="edit-chronic-diseases">Enfermedades Crónicas:</label>
-                                <textarea id="edit-chronic-diseases" name="edit-chronic-diseases" placeholder="Describe las enfermedades crónicas del paciente"></textarea>
+                            <label for="edit-apellidoP">Apellido Paterno:</label>
+                            <input type="text" id="edit-ap" name="edit-apellidoP" required>
 
-                                <label for="edit-allergies">Alergias:</label>
-                                <textarea id="edit-allergies" name="edit-allergies" placeholder="Describe las alergias del paciente"></textarea>
+                            <label for="edit-apellidoM">Apellido Materno:</label>
+                            <input type="text" id="edit-am" name="edit-apellidoM" required>
 
-                                <label for="edit-family-history">Antecedentes Familiares:</label>
-                                <textarea id="edit-family-history" name="edit-family-history" placeholder="Describe los antecedentes familiares"></textarea>
+                            <label for="edit-birth-date">Fecha de Nacimiento:</label>
+                            <input type="date" id="edit-birth-date" name="edit-birth-date" required>
 
-                                <button type="submit">Guardar Cambios</button>
-                            </form>
-                        </div>
+                            <label for="edit-chronic-diseases">Enfermedades Crónicas:</label>
+                            <textarea id="edit-chronic-diseases" name="edit-chronic-diseases"
+                                placeholder="Describe las enfermedades crónicas del paciente"></textarea>
+
+                            <label for="edit-allergies">Alergias:</label>
+                            <textarea id="edit-allergies" name="edit-allergies"
+                                placeholder="Describe las alergias del paciente"></textarea>
+
+                            <label for="edit-family-history">Antecedentes Familiares:</label>
+                            <textarea id="edit-family-history" name="edit-family-history"
+                                placeholder="Describe los antecedentes familiares"></textarea>
+
+                            <button type="submit">Guardar Cambios</button>
+                        </form>
                     </div>
+                </div>
 
-                    <!-- Modal de confirmación de eliminación -->
-                    <div id="modalDeleteConfirmation" class="modal-custom">
-                        <div class="modal-content-custom">
+                <!-- Modal de confirmación de eliminación -->
+                <div id="modalDeleteConfirmation" class="modal-custom">
+                    <div class="modal-content-custom">
                             <span class="close-btn-custom" onclick="closeDeleteConfirmation()">&times;</span>
-                            <h2>¿Estás seguro de que quieres borrar al paciente?</h2>
+                            <h2>¿Estás seguro de que quieres borrar al  fucking paciente con nombre {{paci.0 }} {{paci.1 }} {{paci.2 }}?</h2>
                             <div class="modal-buttons">
                                 <button id="confirm-delete-btn" class="filter-btn">Sí</button>
                                 <button id="cancel-delete-btn" class="filter-btn">No</button>
                             </div>
-                        </div>
                     </div>
+                </div>
 
-                    <!-- Modal de éxito de eliminación -->
-                    <div id="modalDeleteSuccess" class="modal-custom">
-                        <div class="modal-content-custom">
-                            <span class="close-btn-custom" onclick="closeDeleteSuccess()">&times;</span>
-                            <h2>El paciente se ha borrado correctamente</h2>
-                        </div>
+
+                <!-- Modal de éxito de eliminación -->
+                <div id="modalDeleteSuccess" class="modal-custom">
+                    <div class="modal-content-custom">
+                        <span class="close-btn-custom" onclick="closeDeleteSuccess()">&times;</span>
+                        <h2>El paciente se ha borrado correctamente</h2>
                     </div>
+                </div>
 
 
-                    <!-- Script de modal que elimina al paciente -->
-                    <script>
-                            var deleteConfirmationModal = document.getElementById("modalDeleteConfirmation");
-                            var deleteSuccessModal = document.getElementById("modalDeleteSuccess");
-                            var confirmDeleteBtn = document.getElementById("confirm-delete-btn");
-                            var cancelDeleteBtn = document.getElementById("cancel-delete-btn");
-                            var deletePatientId = null; // Variable para almacenar el ID del paciente a eliminar
-                        
-                            function showDeleteConfirmation(patientId) {
-                                deletePatientId = patientId;
-                                deleteConfirmationModal.style.display = "block";
-                            }
-                        
-                            function closeDeleteConfirmation() {
-                                deleteConfirmationModal.style.display = "none";
-                            }
-                        
-                            function closeDeleteSuccess() {
-                                deleteSuccessModal.style.display = "none";
-                            }
-                        
-                            confirmDeleteBtn.onclick = function() {
-                                // Aquí debes añadir la lógica para eliminar al paciente con `deletePatientId`
-                                // Por ejemplo:
-                                // eliminarPaciente(deletePatientId);
-                        
-                                closeDeleteConfirmation();
-                                deleteSuccessModal.style.display = "block";
-                            }
-                        
-                            cancelDeleteBtn.onclick = function() {
-                                closeDeleteConfirmation();
-                            }
-                        
-                            window.onclick = function(event) {
-                                if (event.target == deleteConfirmationModal) {
-                                    closeDeleteConfirmation();
-                                }
-                                if (event.target == deleteSuccessModal) {
-                                    closeDeleteSuccess();
-                                }
-                            }
-                        </script>
-                        
+                <!-- Script de modal que elimina al paciente -->
+                <script>
+                    var deleteConfirmationModal = document.getElementById("modalDeleteConfirmation");
+                    var deleteSuccessModal = document.getElementById("modalDeleteSuccess");
+                    var confirmDeleteBtn = document.getElementById("confirm-delete-btn");
+                    var cancelDeleteBtn = document.getElementById("cancel-delete-btn");
+                    var deletePatientId = null; // Variable para almacenar el ID del paciente a eliminar
 
+                    function showDeleteConfirmation(patientId, nombre, ap, am) {
+                        deletePatientId = patientId;
 
-                    <!-- Script del modal de editar paciente -->
-                    <script>
-                        // Selección de elementos del DOM
-                        var modalEditPaciente = document.getElementById("modalEditPaciente");
-                        var spanCloseEditPaciente = document.getElementsByClassName("close-btn-custom")[1]; // Nota: Cambiado a [1] para seleccionar el segundo elemento de la clase
+                        var modalText = document.querySelector("#modalDeleteConfirmation h2");
+                        modalText.textContent = `¿Estás seguro de que quieres borrar al paciente con nombre ${nombre} ${ap} ${am}?`;
+                        deleteConfirmationModal.style.display = "block";
+                    }
 
-                        // Función para mostrar el modal con los datos del paciente
-                        function showEditModal(patientName, birthDate, chronicDiseases, allergies, familyHistory) {
-                            document.getElementById('edit-patient-name').value = patientName;
-                            document.getElementById('edit-birth-date').value = birthDate;
-                            document.getElementById('edit-chronic-diseases').value = chronicDiseases;
-                            document.getElementById('edit-allergies').value = allergies;
-                            document.getElementById('edit-family-history').value = familyHistory;
-                            
-                            modalEditPaciente.style.display = "block";
+                    function closeDeleteConfirmation() {
+                        deleteConfirmationModal.style.display = "none";
+                    }
+
+                    function closeDeleteSuccess() {
+                        deleteSuccessModal.style.display = "none";
+                    }
+
+                    function logicdelPac(IdPac) {
+                        // Aquí debes añadir la lógica para eliminar al paciente con `IdPac`
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/borrar_paciente_logico', true);
+                        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                        xhr.onload = function () {
+                            // Puedes añadir algún manejo de respuesta aquí si es necesario
+                            if (xhr.status === 200) {
+                                // Lógica después de eliminar exitosamente el paciente
+                                console.log('Paciente eliminado exitosamente');
+                            } else {
+                                console.error('Error al eliminar el paciente');
+                            }
+                        };
+                        xhr.send(JSON.stringify({
+                            ID_borrar: IdPac
+                        }));
+
+                    }
+
+                    confirmDeleteBtn.onclick = function () {
+                        // Aquí debes añadir la lógica para eliminar al paciente con `deletePatientId`
+                        logicdelPac(deletePatientId);
+
+                        closeDeleteConfirmation();
+                        deleteSuccessModal.style.display = "none";
+                    }
+
+                    cancelDeleteBtn.onclick = function () {
+                        closeDeleteConfirmation();
+                    }
+
+                    window.onclick = function (event) {
+                        if (event.target == deleteConfirmationModal) {
+                            closeDeleteConfirmation();
                         }
+                        if (event.target == deleteSuccessModal) {
+                            closeDeleteSuccess();
+                        }
+                    }
+                </script>
 
-                        // Cierra el modal de edición cuando se hace clic en la "X"
-                        spanCloseEditPaciente.onclick = function() {
+
+
+                <!-- Script del modal de editar paciente -->
+                <script>
+                    // Selección de elementos del DOM
+                    var modalEditPaciente = document.getElementById("modalEditPaciente");
+                    var spanCloseEditPaciente = document.getElementsByClassName("close-btn-custom")[1]; // Nota: Cambiado a [1] para seleccionar el segundo elemento de la clase
+
+                    // Función para mostrar el modal con los datos del paciente
+                    function showEditModal(patientName, apellidoP, apellidoM, birthDate, chronicDiseases, allergies, familyHistory, idPaciente) {
+                        document.getElementById('edit-idPac').value = idPaciente;
+                        document.getElementById('edit-patient-name').value = patientName;
+                        document.getElementById('edit-ap').value = apellidoP;
+                        document.getElementById('edit-am').value = apellidoM;
+                        document.getElementById('edit-birth-date').value = birthDate;
+                        document.getElementById('edit-chronic-diseases').value = chronicDiseases;
+                        document.getElementById('edit-allergies').value = allergies;
+                        document.getElementById('edit-family-history').value = familyHistory;
+
+                        modalEditPaciente.style.display = "block";
+                    }
+
+                    // Cierra el modal de edición cuando se hace clic en la "X"
+                    spanCloseEditPaciente.onclick = function () {
+                        modalEditPaciente.style.display = "none";
+                    }
+
+                    // Cierra el modal si se hace clic fuera del contenido del modal
+                    window.onclick = function (event) {
+                        if (event.target == modalEditPaciente) {
                             modalEditPaciente.style.display = "none";
                         }
-
-                        // Cierra el modal si se hace clic fuera del contenido del modal
-                        window.onclick = function(event) {
-                            if (event.target == modalEditPaciente) {
-                                modalEditPaciente.style.display = "none";
-                            }
-                        }
-                    </script>
+                    }
+                </script>
 
             </div>
+            {% endfor %}
 
 
         </div>
@@ -282,30 +325,30 @@
                     <div class="modal-content-custom-1">
                         <span class="close-btn-custom-1">&times;</span>
                         <h2>Agregar Médico</h2>
-                        <form id="form-add-medic-custom-1">
+                        <form id="form-add-medic-custom-1" action="/registrar" method="POST">
                             <label for="input-medic-name-1">Nombre del médico:</label>
-                            <input type="text" id="input-medic-name-1" name="medic-name" placeholder="Escribe el nombre" required>
+                            <input type="text" id="input-medic-name-1" name="nombre_med" placeholder="Escribe el nombre" required>
         
                             <label for="input-medic-firstname-1">Apellido Paterno:</label>
-                            <input type="text" id="input-medic-firstname-1" name="medic-firstname" placeholder="Apellido paterno" required>
+                            <input type="text" id="input-medic-firstname-1" name="ap_p" placeholder="Apellido paterno" required>
         
                             <label for="input-medic-lastname-1">Apellido Materno:</label>
-                            <input type="text" id="input-medic-lastname-1" name="medic-lastname" placeholder="Apellido materno" required>
+                            <input type="text" id="input-medic-lastname-1" name="ap_m" placeholder="Apellido materno" required>
                     
                             <label for="input-rfc-1">RFC:</label>
                             <input type="text" id="input-rfc-1" name="rfc" placeholder="RFC" required>
                     
                             <label for="input-professional-license-1">Cédula profesional:</label>
-                            <textarea id="input-professional-license-1" name="professional-license" placeholder="Cédula"></textarea>
+                            <textarea id="input-professional-license-1" name="cedula" placeholder="Cédula"></textarea>
                     
                             <label for="input-phone-1">Teléfono:</label>
-                            <input type="text" id="input-phone-1" name="phone" placeholder="0000-000-000"></input>
+                            <input type="text" id="input-phone-1" name="tel" placeholder="0000-000-000"></input>
                     
                             <label for="input-email-1">Correo electrónico:</label>
-                            <input type="email" id="input-email-1" name="email" placeholder="example@example.com"></input>
+                            <input type="email" id="input-email-1" name="correo" placeholder="example@example.com"></input>
         
                             <label for="input-role-1">Rol:</label>
-                            <input type="text" id="input-role-1" name="role" placeholder="Rol"></input>
+                            <input type="text" id="input-role-1" name="rol" placeholder="Rol"></input>
                     
                             <label for="input-password-1">Contraseña:</label>
                             <input type="password" id="input-password-1" name="password" placeholder="**********"></input>
@@ -347,203 +390,210 @@
         
             <!-- en "data-date" es para lograr el filtrado, ese debe acomodarse dependiendo de la base de datos, esa fecha es la fecha que fue registrado -->
             <!-- la funcion de showDetails es para que se muestren los detalles del médico, esos datos son lo que saldrán dependiendo de los datos que tenga la bd, la imagen podemos verla después para que salgan xd -->
-            <div class="appointment-item-1" data-date="2024-01-31" onclick="showDetails1('Aguillon Torrijos Estrella', '2003-09-17', 'Ninguna', 'Ninguna', 'Diabetes por parte de la madre', '2024-01-31', 'img/hoshii.png')">
-                <div class="appointment-info-1">
-                    <!-- Nombre que se muestra dependiendo de la bd -->
-                    <p>Aguillon Torrijos Estrella</p>
-        
-                    <!-- Fecha que se muestra dependiendo de la bd, esta tiene formato de año-mes-dia -->
-                    <span>Fecha de registro: YYYY-MM-DD</span>
-                </div>
-                <div class="appointment-actions-1">
-        
-                    <!-- Este es el botón que manda a llamar el Modal que edita al médico -->
-                    <button class="delete-btn-1" onclick="showEditModal1('Aguillon Torrijos Estrella', '2003-09-17', 'Ninguna', 'Ninguna', 'Diabetes por parte de la madre')">
-                        <img src="{{ url_for('static', filename='img/edit_icon.png') }}" alt="Edit">
-                    </button>
-                    
-                    <!-- Este es el botón que manda a llamar el Modal que borra al médico, PERO no lo va a borrar completamente, si se llega a poder se debe mandar a la "papelera". pero sino se puede, pues si se borra alv -->
-                    <button class="delete-btn-1" onclick="showDeleteConfirmation1('ID_DEL_MEDICO')">
-                        <img src="{{ url_for('static', filename='img/trash_icon.png') }}" alt="Delete">
-                    </button>
-                    
-                </div>
-        
-                <!-- Modal para editar médico -->
-                    <div id="modalEditMedic-1" class="modal-custom-1">
-                        <div class="modal-content-custom-1">
-                            <span class="close-btn-custom-1">&times;</span>
-                            <h2>Editar Médico</h2>
-                            <form id="form-edit-medic-custom-1">
-                                <label for="edit-medic-name-1">Nombre del Médico:</label>
-                                <input type="text" id="edit-medic-name-1" name="edit-medic-name" required>
-        
-                                <label for="edit-paterno-1">Apellido Paterno:</label>
-                                <input type="text" id="edit-paterno-1" name="edit-paterno" required>
-        
-                                <label for="edit-materno-1">Apellido Materno:</label>
-                                <input type="text" id="edit-materno-1" name="edit-materno" required>
-        
-                                <label for="edit-rfc-1">RFC:</label>
-                                <input type="text" id="edit-rfc-1" name="edit-rfc" required>
-        
-                                <label for="edit-professional-license-1">Cédula profesional:</label>
-                                <textarea id="edit-professional-license-1" name="edit-professional-license" placeholder="Cédula"></textarea>
-        
-                                <label for="edit-phone-1">Teléfono:</label>
-                                <input type="text" id="edit-phone-1" name="edit-phone" placeholder="Teléfono"></input>
-        
-                                <label for="edit-email-1">Correo electrónico:</label>
-                                <input type="email" id="edit-email-1" name="edit-email" placeholder="Correo electrónico"></input>
-        
-                                <label for="edit-role-1">Rol:</label>
-                                <input type="text" id="edit-role-1" name="edit-role" placeholder="Rol"></input>
-        
-                                <label for="edit-password-1">Contraseña:</label>
-                                <input type="password" id="edit-password-1" name="edit-password" placeholder="Contraseña"></input>
-        
-                                
-                                <button type="submit">Guardar Cambios</button>
-                            </form>
-                        </div>
+            {% for med in medicos %}
+                <div class="appointment-item-1" data-date="2024-01-31">
+                    <div class="appointment-info-1">
+                        <!-- Nombre que se muestra dependiendo de la bd -->
+                        <p>{{ med.1 }} {{ med.2 }} {{ med.3 }}</p>
+            
+                        <!-- Fecha que se muestra dependiendo de la bd, esta tiene formato de año-mes-dia -->
+                        <span>Fecha de registro: YYYY-MM-DD</span>
                     </div>
-        
-                    <!-- Modal de confirmación de eliminación -->
-                    <div id="modalDeleteConfirmation-1" class="modal-custom-1">
-                        <div class="modal-content-custom-1">
-                            <span class="close-btn-custom-1" onclick="closeDeleteConfirmation1()">&times;</span>
-                            <h2>¿Estás seguro de que quieres borrar al médico?</h2>
-                            <div class="modal-buttons-1">
-                                <button id="confirm-delete-btn-1" class="filter-btn">Sí</button>
-                                <button id="cancel-delete-btn-1" class="filter-btn">No</button>
+                    <div class="appointment-actions-1">
+            
+                        <!-- Este es el botón que manda a llamar el Modal que edita al médico -->
+                        <button class="delete-btn-1" onclick="showEditModal1('{{ med.1 }}', '{{ med.2 }}', '{{ med.3 }}', '{{ med.4 }}', '{{ med.5 }}', '{{ med.6 }}', '{{ med.7 }}', '{{ med.8 }}', '{{ med.9 }}', '{{ med.0 }}')">
+                            <img src="{{ url_for('static', filename='img/edit_icon.png') }}" alt="Edit">
+                        </button>
+                        
+                        <!-- Este es el botón que manda a llamar el Modal que borra al médico, PERO no lo va a borrar completamente, si se llega a poder se debe mandar a la "papelera". pero sino se puede, pues si se borra alv -->
+                        <button class="delete-btn-1" onclick="showDeleteConfirmation1('ID_DEL_MEDICO')">
+                            <img src="{{ url_for('static', filename='img/trash_icon.png') }}" alt="Delete">
+                        </button>
+                        
+                    </div>
+            
+                    <!-- Modal para editar médico -->
+                        <div id="modalEditMedic-1" class="modal-custom-1">
+                            <div class="modal-content-custom-1">
+                                <span class="close-btn-custom-1">&times;</span>
+                                <h2>Editar Médico</h2>
+                                <form id="form-edit-medic-custom-1">
+                                    <label for="edit-medic-name-1">Nombre del Médico:</label>
+                                    <input type="text" id="edit-medic-name-1" name="edit-medic-name" required>
+            
+                                    <label for="edit-paterno-1">Apellido Paterno:</label>
+                                    <input type="text" id="edit-paterno-1" name="edit-paterno" required>
+            
+                                    <label for="edit-materno-1">Apellido Materno:</label>
+                                    <input type="text" id="edit-materno-1" name="edit-materno" required>
+            
+                                    <label for="edit-rfc-1">RFC:</label>
+                                    <input type="text" id="edit-rfc-1" name="edit-rfc" required>
+            
+                                    <label for="edit-professional-license-1">Cédula profesional:</label>
+                                    <textarea id="edit-professional-license-1" name="edit-professional-license" placeholder="Cédula"></textarea>
+            
+                                    <label for="edit-phone-1">Teléfono:</label>
+                                    <input type="text" id="edit-phone-1" name="edit-phone" placeholder="Teléfono"></input>
+            
+                                    <label for="edit-email-1">Correo electrónico:</label>
+                                    <input type="email" id="edit-email-1" name="edit-email" placeholder="Correo electrónico"></input>
+            
+                                    <label for="edit-role-1">Rol:</label>
+                                    <input type="text" id="edit-role-1" name="edit-role" placeholder="Rol"></input>
+            
+                                    <label for="edit-password-1">Contraseña:</label>
+                                    <input type="password" id="edit-password-1" name="edit-password" placeholder="Contraseña"></input>
+            
+                                    
+                                    <button type="submit">Guardar Cambios</button>
+                                </form>
                             </div>
                         </div>
-                    </div>
-        
-                    <!-- Modal de éxito de eliminación -->
-                    <div id="modalDeleteSuccess-1" class="modal-custom-1">
-                        <div class="modal-content-custom-1">
-                            <span class="close-btn-custom-1" onclick="closeDeleteSuccess1()">&times;</span>
-                            <h2>El médico se ha borrado correctamente</h2>
+            
+                        <!-- Modal de confirmación de eliminación -->
+                        <div id="modalDeleteConfirmation-1" class="modal-custom-1">
+                            <div class="modal-content-custom-1">
+                                <span class="close-btn-custom-1" onclick="closeDeleteConfirmation1()">&times;</span>
+                                <h2>¿Estás seguro de que quieres borrar al médico?</h2>
+                                <div class="modal-buttons-1">
+                                    <button id="confirm-delete-btn-1" class="filter-btn">Sí</button>
+                                    <button id="cancel-delete-btn-1" class="filter-btn">No</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                
-                    <!-- Script de modal que elimina al médico -->
-                    <script>
-                        var deleteConfirmationModal1 = document.getElementById("modalDeleteConfirmation-1");
-                        var deleteSuccessModal1 = document.getElementById("modalDeleteSuccess-1");
-                        var confirmDeleteBtn1 = document.getElementById("confirm-delete-btn-1");
-                        var cancelDeleteBtn1 = document.getElementById("cancel-delete-btn-1");
-                        var deleteMedicId1 = null; // Variable para almacenar el ID del médico a eliminar
+            
+                        <!-- Modal de éxito de eliminación -->
+                        <div id="modalDeleteSuccess-1" class="modal-custom-1">
+                            <div class="modal-content-custom-1">
+                                <span class="close-btn-custom-1" onclick="closeDeleteSuccess1()">&times;</span>
+                                <h2>El médico se ha borrado correctamente</h2>
+                            </div>
+                        </div>
                     
-                        function showDeleteConfirmation1(medicId) {
-                            deleteMedicId1 = medicId;
-                            deleteConfirmationModal1.style.display = "block";
-                        }
-                    
-                        function closeDeleteConfirmation1() {
-                            deleteConfirmationModal1.style.display = "none";
-                        }
-                    
-                        function closeDeleteSuccess1() {
-                            deleteSuccessModal1.style.display = "none";
-                        }
-                    
-                        confirmDeleteBtn1.onclick = function() {
-                            // Aquí debes añadir la lógica para eliminar al médico con `deleteMedicId1`
-                            // Por ejemplo:
-                            // eliminarMedic(deleteMedicId1);
-                    
-                            closeDeleteConfirmation1();
-                            deleteSuccessModal1.style.display = "block";
-                        }
-                    
-                        cancelDeleteBtn1.onclick = function() {
-                            closeDeleteConfirmation1();
-                        }
-                    
-                        window.onclick = function(event) {
-                            if (event.target == deleteConfirmationModal1) {
+                        <!-- Script de modal que elimina al médico -->
+                        <script>
+                            var deleteConfirmationModal1 = document.getElementById("modalDeleteConfirmation-1");
+                            var deleteSuccessModal1 = document.getElementById("modalDeleteSuccess-1");
+                            var confirmDeleteBtn1 = document.getElementById("confirm-delete-btn-1");
+                            var cancelDeleteBtn1 = document.getElementById("cancel-delete-btn-1");
+                            var deleteMedicId1 = null; // Variable para almacenar el ID del médico a eliminar
+                        
+                            function showDeleteConfirmation1(medicId) {
+                                deleteMedicId1 = medicId;
+                                deleteConfirmationModal1.style.display = "block";
+                            }
+                        
+                            function closeDeleteConfirmation1() {
+                                deleteConfirmationModal1.style.display = "none";
+                            }
+                        
+                            function closeDeleteSuccess1() {
+                                deleteSuccessModal1.style.display = "none";
+                            }
+                        
+                            confirmDeleteBtn1.onclick = function() {
+                                // Aquí debes añadir la lógica para eliminar al médico con `deleteMedicId1`
+                                // Por ejemplo:
+                                // eliminarMedic(deleteMedicId1);
+                        
+                                closeDeleteConfirmation1();
+                                deleteSuccessModal1.style.display = "block";
+                            }
+                        
+                            cancelDeleteBtn1.onclick = function() {
                                 closeDeleteConfirmation1();
                             }
-                            if (event.target == deleteSuccessModal1) {
-                                closeDeleteSuccess1();
+                        
+                            window.onclick = function(event) {
+                                if (event.target == deleteConfirmationModal1) {
+                                    closeDeleteConfirmation1();
+                                }
+                                if (event.target == deleteSuccessModal1) {
+                                    closeDeleteSuccess1();
+                                }
                             }
-                        }
-                    </script>
-                
-        
-                    <!-- Script del modal de editar médico -->
-                    <script>
-                        // Selección de elementos del DOM
-                        var modalEditMedic1 = document.getElementById("modalEditMedic-1");
-                        var spanCloseEditMedic1 = document.getElementsByClassName("close-btn-custom-1")[1]; // Nota: Cambiado a [1] para seleccionar el segundo elemento de la clase
-        
-                        // Función para mostrar el modal con los datos del médico
-                        function showEditModal1(medicName, birthDate, chronicDiseases, allergies, familyHistory) {
-                            document.getElementById('edit-medic-name-1').value = medicName;
-                            document.getElementById('edit-paterno-1').value = birthDate;
-                            document.getElementById('edit-materno-1').value = chronicDiseases;
-                            document.getElementById('edit-rfc-1').value = allergies;
-                            document.getElementById('edit-professional-license-1').value = familyHistory;
-                            
-                            modalEditMedic1.style.display = "block";
-                        }
-        
-                        // Cierra el modal de edición cuando se hace clic en la "X"
-                        spanCloseEditMedic1.onclick = function() {
-                            modalEditMedic1.style.display = "none";
-                        }
-        
-                        // Cierra el modal si se hace clic fuera del contenido del modal
-                        window.onclick = function(event) {
-                            if (event.target == modalEditMedic1) {
+                        </script>
+                    
+            
+                        <!-- Script del modal de editar médico -->
+                        <script>
+                            // Selección de elementos del DOM
+                            var modalEditMedic1 = document.getElementById("modalEditMedic-1");
+                            var spanCloseEditMedic1 = document.getElementsByClassName("close-btn-custom-1")[1]; // Nota: Cambiado a [1] para seleccionar el segundo elemento de la clase
+            
+                            // Función para mostrar el modal con los datos del médico
+                            function showEditModal1(medicName, apellidoP, apellidoM, rfc, telefono, correo, cedula, rol , contra, medicoID) {
+                                document.getElementById('edit-medic-name-1').value = medicName;
+                                document.getElementById('edit-paterno-1').value = apellidoP;
+                                document.getElementById('edit-materno-1').value = apellidoM
+                                document.getElementById('edit-rfc-1').value = rfc;
+                                document.getElementById('edit-professional-license-1').value = cedula;
+                                document.getElementById('edit-phone-1').value = telefono;
+                                document.getElementById('edit-email-1').value = correo;
+                                document.getElementById('edit-role-1').value = rol;
+                                document.getElementById('edit-password-1').value = contra;
+                                console.log(medicoIDz)
+
+                                modalEditMedic1.style.display = "block";
+                            }
+            
+                            // Cierra el modal de edición cuando se hace clic en la "X"
+                            spanCloseEditMedic1.onclick = function() {
                                 modalEditMedic1.style.display = "none";
                             }
-                        }
-                    </script>
-        
-                    <!-- Incluye Flatpickr JS -->
-                    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-                    <script>
-                        // Inicializa Flatpickr
-                        flatpickr("#appointment-date-1", {
-                            dateFormat: "Y-m-d",
-                            onChange: filterAppointments // Filtrar automáticamente al cambiar la fecha
-                        });
-
-                        // Añadir eventos para el filtrado por nombre
-                        document.getElementById('medic-name-filter-1').addEventListener('input', filterAppointments);
-                        document.getElementById('show-all-btn-1').addEventListener('click', showAllAppointments);
-
-                        function filterAppointments() {
-                            const filterDate = document.getElementById('appointment-date-1').value;
-                            const filterName = document.getElementById('medic-name-filter-1').value.toLowerCase();
-                            const appointments = document.querySelectorAll('.appointment-item-1');
-                        
-                            appointments.forEach(appointment => {
-                                const appointmentDate = appointment.getAttribute('data-date');
-                                const appointmentName = appointment.getAttribute('data-name').toLowerCase();
-                        
-                                // Comparar fecha y nombre, mostrar/ocultar en base a los filtros
-                                if ((filterDate === '' || appointmentDate === filterDate) && 
-                                    (filterName === '' || appointmentName.includes(filterName))) {
-                                    appointment.style.display = '';
-                                } else {
-                                    appointment.style.display = 'none';
+            
+                            // Cierra el modal si se hace clic fuera del contenido del modal
+                            window.onclick = function(event) {
+                                if (event.target == modalEditMedic1) {
+                                    modalEditMedic1.style.display = "none";
                                 }
+                            }
+                        </script>
+            
+                        <!-- Incluye Flatpickr JS -->
+                        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                        <script>
+                            // Inicializa Flatpickr
+                            flatpickr("#appointment-date-1", {
+                                dateFormat: "Y-m-d",
+                                onChange: filterAppointments // Filtrar automáticamente al cambiar la fecha
                             });
-                        }
 
-                        function showAllAppointments() {
-                            // Resetear los filtros y mostrar todos los elementos
-                            document.getElementById('appointment-date-1').value = '';
-                            document.getElementById('medic-name-filter-1').value = '';
-                            filterAppointments();
-                        }
-                    </script>
+                            // Añadir eventos para el filtrado por nombre
+                            document.getElementById('medic-name-filter-1').addEventListener('input', filterAppointments);
+                            document.getElementById('show-all-btn-1').addEventListener('click', showAllAppointments);
 
-            </div>        
+                            function filterAppointments() {
+                                const filterDate = document.getElementById('appointment-date-1').value;
+                                const filterName = document.getElementById('medic-name-filter-1').value.toLowerCase();
+                                const appointments = document.querySelectorAll('.appointment-item-1');
+                            
+                                appointments.forEach(appointment => {
+                                    const appointmentDate = appointment.getAttribute('data-date');
+                                    const appointmentName = appointment.getAttribute('data-name').toLowerCase();
+                            
+                                    // Comparar fecha y nombre, mostrar/ocultar en base a los filtros
+                                    if ((filterDate === '' || appointmentDate === filterDate) && 
+                                        (filterName === '' || appointmentName.includes(filterName))) {
+                                        appointment.style.display = '';
+                                    } else {
+                                        appointment.style.display = 'none';
+                                    }
+                                });
+                            }
+
+                            function showAllAppointments() {
+                                // Resetear los filtros y mostrar todos los elementos
+                                document.getElementById('appointment-date-1').value = '';
+                                document.getElementById('medic-name-filter-1').value = '';
+                                filterAppointments();
+                            }
+                        </script>
+
+                </div>
+            {% endfor %}        
         </div>
 
 
@@ -569,18 +619,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        {% for mdlog in medlogs %}
+                            <tr>
 
-                            <!-- Nombre del medico -->
-                            <td>Dr. Juan Pérez</td>
+                                <!-- Nombre del medico -->
+                                <td>{{ mdlog.1 }} {{ mdlog.2 }} {{ mdlog.3 }}</td>
 
-                            <!-- Cambio -->
-                            <td>INSERT</td>
-                            <!-- Fecha y hora -->
-                            <td>12/08/2024 10:30 AM</td>
-                        </tr>
-            
-                        
+                                <!-- Cambio -->
+                                <td>{{ mdlog.4 }}</td>
+                                <!-- Fecha y hora -->
+                                <td>{{ mdlog.5 }}</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

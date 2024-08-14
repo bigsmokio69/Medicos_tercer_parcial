@@ -60,23 +60,19 @@ def registrar():
         correo=request.form['correo']
         cedula=request.form['cedula']
         rol=request.form['rol']
-        contra=request.form['contra']
-        conf=request.form['confirmar']
+        contra=request.form['password']
+        #conf=request.form['confirmar']
                 
-        if contra==conf:
-            hashed_contra = bcrypt.hashpw(contra.encode('utf-8'), bcrypt.gensalt())
+        hashed_contra = bcrypt.hashpw(contra.encode('utf-8'), bcrypt.gensalt())
             
-            cursor=mysql.connection.cursor()
-            cursor.execute("INSERT INTO Temp_Session (ses_medico_id) VALUES (%s)", (medicoId,))
-            mysql.connection.commit()
+        cursor=mysql.connection.cursor()
+        cursor.execute("INSERT INTO Temp_Session (ses_medico_id) VALUES (%s)", (medicoId,))
+        mysql.connection.commit()
             
-            cursor.execute('CALL sp_ins_medico (%s, %s, %s, %s, %s, %s, %s, %s, %s)', (nombre, ap, am, rfc, tel, correo, cedula, rol, hashed_contra))
-            mysql.connection.commit()
-            flash('Médico agregado correctamente')
-            print('doc agregado con exito')
-        else:
-            flash('Las contraseñas no coinciden')
-    return redirect(url_for('mostrar_registro'))
+        cursor.execute('CALL sp_ins_medico (%s, %s, %s, %s, %s, %s, %s, %s, %s)', (nombre, ap, am, rfc, tel, correo, cedula, rol, hashed_contra))
+        mysql.connection.commit()
+        print('doc agregado con exito')
+    return redirect(url_for('mostrar_administracion'))
 
 @app.route('/mostrar_dashboard')
 def mostrar_dashboard():
@@ -233,6 +229,20 @@ def borrar_paciente_logico():
 def mostrar_citas():
     
     return render_template('citas.html')
+
+@app.route('/mostrar_administracion')
+def mostrar_administracion():
+    medicoId=session.get('id_medico')
+    cursor=mysql.connection.cursor()
+    cursor.execute('SELECT * FROM vista_pacientes WHERE id_medico=%s and estatus=1', (medicoId,))
+    consulta=cursor.fetchall()
+    
+    cursor.execute('SELECT * FROM vista_medicos WHERE estatus=1')
+    consulta2=cursor.fetchall()
+    
+    cursor.execute('SELECT * FROM medicos_log')
+    consulta3=cursor.fetchall()
+    return render_template('administracion.html', pacientes=consulta, medicos=consulta2, medlogs=consulta3)
 
 if __name__=='__main__':#es necesario hacer que main tenga dos guiones bajos
     app.run(port=3000, debug=True)
